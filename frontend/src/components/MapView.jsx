@@ -58,12 +58,43 @@ function FitBounds({ positions }) {
   return null;
 }
 
-// Animated polyline (CSS animated dashes)
+// Generate road-like interpolated path between waypoints
+function interpolateRoute(positions) {
+  if (positions.length < 2) return positions;
+  const result = [];
+  for (let i = 0; i < positions.length - 1; i++) {
+    const [lat1, lng1] = positions[i];
+    const [lat2, lng2] = positions[i + 1];
+    const SEGMENTS = 8;
+    result.push([lat1, lng1]);
+    for (let s = 1; s < SEGMENTS; s++) {
+      const t = s / SEGMENTS;
+      // Alternate lateral offsets to simulate road turns
+      const perpDir = s % 2 === 0 ? 1 : -1;
+      const offset = perpDir * Math.sin(t * Math.PI) * 0.003 * (0.5 + Math.random() * 0.5);
+      const dx = lng2 - lng1;
+      const dy = lat2 - lat1;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      // Perpendicular direction
+      const perpLat = -dx / len * offset;
+      const perpLng = dy / len * offset;
+      result.push([
+        lat1 + (lat2 - lat1) * t + perpLat,
+        lng1 + (lng2 - lng1) * t + perpLng,
+      ]);
+    }
+  }
+  result.push(positions[positions.length - 1]);
+  return result;
+}
+
+// Animated polyline (CSS animated dashes with road-like path)
 function AnimatedPolyline({ positions }) {
   const map = useMap();
   useEffect(() => {
     if (positions.length < 2) return;
-    const polyline = L.polyline(positions, {
+    const roadPath = interpolateRoute(positions);
+    const polyline = L.polyline(roadPath, {
       color: '#10b981',
       weight: 4,
       opacity: 0.9,

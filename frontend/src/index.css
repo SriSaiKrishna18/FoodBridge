@@ -89,10 +89,15 @@
   --radius-lg: var(--r-lg);
   --text-muted: var(--text-3);
   --text-dim: var(--text-4);
+  --text-secondary: var(--text-3);
   --border-hover: var(--border-active);
   --success: var(--g500);
   --warning: var(--amber);
   --danger: var(--red);
+  --green-300: var(--g300);
+  --green-400: var(--g400);
+  --green-500: var(--g500);
+  --green-600: var(--g600);
 }
 
 /* ── Light Theme ─────────────────────────────────────────── */
