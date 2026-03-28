@@ -1,6 +1,7 @@
 """
 Anomaly Detection for Food Safety — FoodBridge
 Uses IsolationForest to flag unusual donation patterns
+Trained on 2,000 synthetic donation samples
 """
 import os
 import pickle
@@ -14,44 +15,111 @@ CATEGORY_MAP = {'cooked': 0, 'raw': 1, 'packaged': 2, 'dairy': 3, 'bakery': 4, '
 _model_data = None
 
 
-def train_anomaly_detector(donations_data):
+def generate_synthetic_anomaly_data(n=2000):
+    """
+    Generate 2,000 synthetic donation feature vectors for IsolationForest training.
+    Models both NORMAL donation patterns and ~5% anomalous outliers.
+    """
+    np.random.seed(42)
+
+    data = []
+    n_normal = int(n * 0.95)
+    n_anomalous = n - n_normal
+
+    # Normal patterns — reflect realistic Chennai food donation behavior
+    for _ in range(n_normal):
+        cat = np.random.choice([0, 0, 0, 1, 2, 3, 4, 5, 6, 7])  # Cooked is most common
+        # Normal hours_since_preparation: typically 0.5–6h
+        hours = np.random.exponential(2.5) + 0.3
+        hours = min(hours, 12)
+        # Normal quantity: 3–25kg with occasional larger
+        qty = np.random.lognormal(2.0, 0.6)
+        qty = np.clip(qty, 1, 50)
+        # Normal hour_of_day: peak at lunch (11–14) and dinner (17–21)
+        if np.random.random() < 0.4:
+            hour = np.random.normal(12.5, 1.5)  # Lunch
+        elif np.random.random() < 0.6:
+            hour = np.random.normal(19, 1.5)     # Dinner
+        else:
+            hour = np.random.uniform(7, 22)       # Anytime business hours
+        hour = int(np.clip(hour, 0, 23))
+
+        data.append([cat, round(hours, 2), round(qty, 1), hour])
+
+    # Anomalous patterns — suspicious listings
+    for _ in range(n_anomalous):
+        anomaly_type = np.random.choice(['late_night', 'huge_qty', 'old_food', 'combo'])
+        if anomaly_type == 'late_night':
+            cat = np.random.randint(0, 8)
+            hours = np.random.uniform(0.5, 4)
+            qty = np.random.uniform(15, 80)
+            hour = np.random.choice([0, 1, 2, 3, 4, 23])
+        elif anomaly_type == 'huge_qty':
+            cat = np.random.randint(0, 8)
+            hours = np.random.uniform(0.5, 3)
+            qty = np.random.uniform(80, 200)  # Unusually large
+            hour = np.random.randint(6, 22)
+        elif anomaly_type == 'old_food':
+            cat = np.random.choice([0, 3])  # Cooked or dairy
+            hours = np.random.uniform(10, 48)  # Way too old
+            qty = np.random.uniform(5, 30)
+            hour = np.random.randint(6, 22)
+        else:  # combo
+            cat = np.random.choice([0, 3])
+            hours = np.random.uniform(8, 24)
+            qty = np.random.uniform(50, 150)
+            hour = np.random.choice([0, 1, 2, 3, 23])
+
+        data.append([cat, round(hours, 2), round(qty, 1), hour])
+
+    np.random.shuffle(data)
+    return data[:n]
+
+
+def train_anomaly_detector(donations_data=None):
     """
     Train IsolationForest on normal donation patterns.
-    donations_data: list of dicts with food_category, hours_since_preparation, quantity_kg, etc.
+    If no data provided (or <100 samples), generates 2,000 synthetic samples.
     """
     global _model_data
-    
-    features = []
-    for d in donations_data:
-        cat = CATEGORY_MAP.get(d.get('food_category', 'other'), 7)
-        hours = d.get('hours_since_preparation', 2)
-        qty = d.get('quantity_kg', 5)
-        hour_of_day = d.get('hour_of_day', 12)
-        features.append([cat, hours, qty, hour_of_day])
-    
+
+    if donations_data is None or len(donations_data) < 100:
+        print("[ANOMALY] Generating 2,000 synthetic samples for training...")
+        raw_data = generate_synthetic_anomaly_data(2000)
+        features = raw_data
+    else:
+        features = []
+        for d in donations_data:
+            cat = CATEGORY_MAP.get(d.get('food_category', 'other'), 7)
+            hours = d.get('hours_since_preparation', 2)
+            qty = d.get('quantity_kg', 5)
+            hour_of_day = d.get('hour_of_day', 12)
+            features.append([cat, hours, qty, hour_of_day])
+
     if len(features) < 10:
         return None
-    
+
     X = np.array(features)
-    
+
     iso = IsolationForest(
         contamination=0.05,
         random_state=42,
         n_estimators=100,
     )
     iso.fit(X)
-    
+
     _model_data = {
         'model': iso,
         'n_training_samples': len(X),
         'feature_names': ['food_category', 'hours_since_preparation', 'quantity_kg', 'hour_of_day'],
         'contamination': 0.05,
     }
-    
+
     os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
     with open(MODEL_PATH, 'wb') as f:
         pickle.dump(_model_data, f)
-    
+
+    print(f"[OK] Anomaly model trained: {len(X)} samples, contamination=0.05")
     return _model_data
 
 
@@ -65,7 +133,7 @@ def detect_anomaly(food_category: str, hours_since_preparation: float, quantity_
         if os.path.exists(MODEL_PATH):
             with open(MODEL_PATH, 'rb') as f:
                 _model_data = pickle.load(f)
-    
+
     if not _model_data or not _model_data.get('model'):
         # Fallback: simple rule-based
         is_anomaly = (
@@ -78,14 +146,14 @@ def detect_anomaly(food_category: str, hours_since_preparation: float, quantity_
             'reason': 'Unusual late-night large quantity listing' if is_anomaly else 'Normal pattern',
             'model_used': 'rule_based',
         }
-    
+
     cat_encoded = CATEGORY_MAP.get(food_category, 7)
     features = np.array([[cat_encoded, hours_since_preparation, quantity_kg, hour_of_day]])
-    
+
     score = float(_model_data['model'].decision_function(features)[0])
     prediction = int(_model_data['model'].predict(features)[0])
     is_anomaly = prediction == -1
-    
+
     # Generate human-readable reason
     reasons = []
     if hours_since_preparation > 6 and food_category in ('cooked', 'dairy'):
@@ -96,10 +164,10 @@ def detect_anomaly(food_category: str, hours_since_preparation: float, quantity_
         reasons.append(f'listed at unusual hour ({hour_of_day}:00)')
     if not reasons:
         reasons.append('combination of factors triggered anomaly detection' if is_anomaly else 'all parameters within normal range')
-    
+
     # Normalize score to 0-1 range (decision_function returns negative for anomalies)
     normalized_score = max(0, min(1, 0.5 - score))
-    
+
     return {
         'is_anomaly': is_anomaly,
         'anomaly_score': round(normalized_score, 3),
@@ -116,7 +184,7 @@ def get_model_info():
         if os.path.exists(MODEL_PATH):
             with open(MODEL_PATH, 'rb') as f:
                 _model_data = pickle.load(f)
-    
+
     if _model_data:
         return {
             'status': 'trained',

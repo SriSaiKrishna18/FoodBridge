@@ -1,6 +1,7 @@
 """
 Collaborative Filtering for Receiver Preference Learning — FoodBridge
 Uses cosine similarity on acceptance history to boost match scores
+Trained on 2,000 synthetic acceptance events across 50 receivers
 """
 import os
 import pickle
@@ -15,24 +16,65 @@ CAT_INDEX = {c: i for i, c in enumerate(CATEGORIES)}
 _model_data = None
 
 
-def build_preference_matrix(match_history):
+def generate_synthetic_collab_data(n_receivers=50, n_events=2000):
+    """
+    Generate 2,000 synthetic receiver acceptance events.
+    Models realistic NGO profiles: vegetarian orgs, bakery-focused, fresh-only, general.
+    """
+    np.random.seed(42)
+
+    # Each receiver has category preferences (realistic NGO profiles)
+    receiver_preferences = {}
+    for r_id in range(n_receivers):
+        r_type = np.random.choice(['general', 'vegetarian', 'bakery_focused', 'fresh_only'], p=[0.4, 0.25, 0.15, 0.2])
+        if r_type == 'vegetarian':
+            prefs = [0.35, 0.05, 0.10, 0.10, 0.20, 0.15, 0.05]
+        elif r_type == 'bakery_focused':
+            prefs = [0.15, 0.05, 0.10, 0.05, 0.45, 0.10, 0.10]
+        elif r_type == 'fresh_only':
+            prefs = [0.10, 0.15, 0.05, 0.20, 0.05, 0.35, 0.10]
+        else:
+            prefs = [0.30, 0.10, 0.10, 0.10, 0.15, 0.15, 0.10]
+        receiver_preferences[r_id] = prefs
+
+    events = []
+    for _ in range(n_events):
+        receiver_id = np.random.randint(0, n_receivers)
+        prefs = receiver_preferences[receiver_id]
+        food_cat_idx = np.random.choice(len(CATEGORIES), p=prefs)
+        # Acceptance probability driven by preference strength
+        accepted = np.random.random() < min(1.0, prefs[food_cat_idx] * 2.5)
+        events.append({
+            'receiver_id': receiver_id,
+            'food_category': CATEGORIES[food_cat_idx],
+            'is_accepted': bool(accepted),
+        })
+
+    return events
+
+
+def build_preference_matrix(match_history=None):
     """
     Build receiver × food_category acceptance matrix.
-    match_history: list of dicts with 'receiver_id', 'food_category', 'is_accepted'
+    If no data provided (or <100 events), generates 2,000 synthetic events.
     """
     global _model_data
-    
+
+    if match_history is None or len(match_history) < 100:
+        print("[COLLAB] Generating 2,000 synthetic acceptance events for training...")
+        match_history = generate_synthetic_collab_data(50, 2000)
+
     # Collect unique receivers
     receiver_ids = sorted(set(m['receiver_id'] for m in match_history))
     receiver_index = {rid: i for i, rid in enumerate(receiver_ids)}
-    
+
     n_receivers = len(receiver_ids)
     n_categories = len(CATEGORIES)
-    
+
     # Build acceptance matrix (count-based)
     acceptance_matrix = np.zeros((n_receivers, n_categories))
     total_matrix = np.zeros((n_receivers, n_categories))
-    
+
     for m in match_history:
         rid = m['receiver_id']
         cat = m.get('food_category', 'other')
@@ -42,13 +84,13 @@ def build_preference_matrix(match_history):
             total_matrix[i, j] += 1
             if m.get('is_accepted', True):
                 acceptance_matrix[i, j] += 1
-    
+
     # Convert to acceptance rate (with Laplace smoothing)
     rate_matrix = (acceptance_matrix + 1) / (total_matrix + 2)
-    
+
     # Compute similarity matrix
     similarity = cosine_similarity(rate_matrix)
-    
+
     _model_data = {
         'rate_matrix': rate_matrix,
         'similarity': similarity,
@@ -57,12 +99,12 @@ def build_preference_matrix(match_history):
         'n_receivers': n_receivers,
         'n_matches_used': len(match_history),
     }
-    
+
     os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
     with open(MODEL_PATH, 'wb') as f:
         pickle.dump(_model_data, f)
-    
-    print(f"[OK] Collaborative filter trained: {n_receivers} receivers, {len(match_history)} matches")
+
+    print(f"[OK] Collaborative filter trained: {n_receivers} receivers, {len(match_history)} acceptance events")
     return _model_data
 
 
@@ -76,24 +118,24 @@ def preference_boost(receiver_id, food_category):
         if os.path.exists(MODEL_PATH):
             with open(MODEL_PATH, 'rb') as f:
                 _model_data = pickle.load(f)
-    
+
     if not _model_data or receiver_id not in _model_data.get('receiver_index', {}):
         return 0.7  # Default neutral score
-    
+
     idx = _model_data['receiver_index'][receiver_id]
     cat_idx = CAT_INDEX.get(food_category)
-    
+
     if cat_idx is None:
         return 0.7
-    
+
     # Direct preference
     direct_pref = float(_model_data['rate_matrix'][idx, cat_idx])
-    
+
     # Similar-receiver weighted preference
     sim_scores = _model_data['similarity'][idx]
     # Top 3 most similar receivers (excluding self)
     similar_indices = np.argsort(sim_scores)[-4:-1]  # Exclude self (highest)
-    
+
     if len(similar_indices) > 0:
         similar_prefs = _model_data['rate_matrix'][similar_indices, cat_idx]
         weighted = np.average(similar_prefs, weights=sim_scores[similar_indices] + 0.01)
@@ -101,7 +143,7 @@ def preference_boost(receiver_id, food_category):
         final_score = 0.7 * direct_pref + 0.3 * float(weighted)
     else:
         final_score = direct_pref
-    
+
     return round(max(0.0, min(1.0, final_score)), 3)
 
 
@@ -114,23 +156,23 @@ def get_preference_explanation(receiver_id, food_category):
         if os.path.exists(MODEL_PATH):
             with open(MODEL_PATH, 'rb') as f:
                 _model_data = pickle.load(f)
-    
+
     if not _model_data or receiver_id not in _model_data.get('receiver_index', {}):
         return "No historical data available for preference analysis"
-    
+
     idx = _model_data['receiver_index'][receiver_id]
     cat_idx = CAT_INDEX.get(food_category)
-    
+
     if cat_idx is None:
         return "Unknown food category"
-    
+
     rate = _model_data['rate_matrix'][idx, cat_idx]
     n_matches = _model_data['n_matches_used']
-    
+
     # Find similar receivers count
     sim_scores = _model_data['similarity'][idx]
     n_similar = int(np.sum(sim_scores > 0.7)) - 1  # Exclude self
-    
+
     pct = int(rate * 100)
     return f"Based on {n_matches} past interactions, this receiver has a {pct}% acceptance rate for {food_category} food. {n_similar} similar receivers also show strong preference."
 
@@ -142,7 +184,7 @@ def get_model_info():
         if os.path.exists(MODEL_PATH):
             with open(MODEL_PATH, 'rb') as f:
                 _model_data = pickle.load(f)
-    
+
     if _model_data:
         return {
             'status': 'trained',
