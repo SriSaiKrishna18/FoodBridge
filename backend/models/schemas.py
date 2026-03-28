@@ -127,6 +127,7 @@ class CategorizeResponse(BaseModel):
     food_category: str
     detected_items: List[str]
     estimated_quantity: str
+    estimated_quantity_kg: float = 5.0
     confidence: float
 
 
