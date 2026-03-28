@@ -325,7 +325,11 @@ def seed_database():
             )
 
             # 75% delivered, 15% matched, 10% available (recent ones)
-            if days_ago > 7:
+            # Ensure first 10 items in batch 0 are always available for demo
+            if batch == 0 and i < 10:
+                days_ago = 0
+                status = "available"
+            elif days_ago > 7:
                 status = "delivered"
             elif days_ago > 2:
                 status = random.choice(["delivered", "matched", "matched"])
