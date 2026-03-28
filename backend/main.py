@@ -24,6 +24,10 @@ from backend.ml.spoilage import predict_spoilage, get_model_info as spoilage_mod
 from backend.ml.matcher import get_model_info as matcher_model_info
 from backend.ml.nlp_categorizer import categorize_food
 from backend.ml.route_optimizer import nearest_neighbor_tsp
+from backend.ml.clustering import train_clusters, get_clusters, get_model_info as cluster_model_info
+from backend.ml.anomaly_detector import train_anomaly_detector, detect_anomaly, get_model_info as anomaly_model_info
+from backend.ml.forecaster import train_forecast_model, forecast_next_hours, get_model_info as forecast_model_info
+from backend.ml.collaborative_filter import build_preference_matrix, preference_boost, get_preference_explanation, get_model_info as collab_model_info
 from backend.data.synthetic_train import CHENNAI_LOCATIONS, RECEIVER_LOCATIONS, FOOD_ITEMS
 
 
@@ -196,13 +200,63 @@ def route_endpoint(data: RouteRequest):
     return RouteResponse(**result)
 
 
+# ── New ML Endpoints ──────────────────────────────────────
+@app.get("/api/clusters", tags=["AI - Clustering"])
+def clusters_endpoint(db: Session = Depends(get_db)):
+    """Get geographic hotspot clusters identified by KMeans."""
+    data = get_clusters()
+    if not data['clusters']:
+        # Train on the fly if not yet trained
+        donations = db.query(Donation).filter(Donation.latitude != None).all()
+        train_data = [{'latitude': d.latitude, 'longitude': d.longitude, 'quantity_kg': d.quantity_kg} for d in donations]
+        train_clusters(train_data)
+        data = get_clusters()
+    return data
+
+
+@app.get("/api/forecast", tags=["AI - Forecasting"])
+def forecast_endpoint(hours: int = 6):
+    """Predict expected donation volume for the next N hours using trained GBR."""
+    return forecast_next_hours(min(hours, 12))
+
+
+@app.post("/api/anomaly", tags=["AI - Anomaly Detection"])
+def anomaly_endpoint(data: dict):
+    """Check if a donation listing is anomalous using IsolationForest."""
+    from datetime import datetime
+    result = detect_anomaly(
+        food_category=data.get('food_category', 'other'),
+        hours_since_preparation=data.get('hours_since_preparation', 2),
+        quantity_kg=data.get('quantity_kg', 5),
+        hour_of_day=data.get('hour_of_day', datetime.now().hour),
+    )
+    return result
+
+
+@app.get("/api/preference/{receiver_id}", tags=["AI - Collaborative Filter"])
+def preference_endpoint(receiver_id: int, food_category: str = "cooked"):
+    """Get receiver preference score for a food category using collaborative filtering."""
+    score = preference_boost(receiver_id, food_category)
+    explanation = get_preference_explanation(receiver_id, food_category)
+    return {
+        'receiver_id': receiver_id,
+        'food_category': food_category,
+        'preference_score': score,
+        'explanation': explanation,
+    }
+
+
 # ── ML Model Info (for demo) ──────────────────────────────
 @app.get("/api/models", tags=["AI - Models"])
 def model_info():
-    """Return trained model metadata — feature importances, accuracy, etc."""
+    """Return trained model metadata — feature importances, accuracy, etc. All 6 models."""
     return {
         "matching_model": matcher_model_info(),
         "spoilage_model": spoilage_model_info(),
+        "clustering_model": cluster_model_info(),
+        "anomaly_model": anomaly_model_info(),
+        "forecast_model": forecast_model_info(),
+        "collaborative_filter": collab_model_info(),
     }
 
 
@@ -211,9 +265,9 @@ def model_info():
 def root():
     return {
         "name": "FoodBridge API",
-        "version": "1.0.0",
+        "version": "2.0.0",
         "status": "running",
-        "ai_models": "2 trained ML models loaded",
+        "ai_models": "6 trained ML models loaded (Matcher, Spoilage, Clustering, Anomaly, Forecast, CollabFilter)",
         "docs": "/docs",
     }
 
@@ -408,8 +462,61 @@ def seed_database():
     print(f"   Impact: {total_kg:.0f} kg saved, {total_co2:.0f} kg CO2 prevented, {total_families} families fed, {total_distance:.0f} km saved")
 
 
+def train_new_ml_models():
+    """Train the 4 new ML models on existing database data."""
+    from backend.models.database import SessionLocal
+    db = SessionLocal()
+    try:
+        # 1. K-Means Clustering
+        donations = db.query(Donation).filter(Donation.latitude != None).all()
+        if donations:
+            cluster_data = [{'latitude': d.latitude, 'longitude': d.longitude, 'quantity_kg': d.quantity_kg} for d in donations]
+            train_clusters(cluster_data)
+            print(f"[OK] Cluster model trained on {len(cluster_data)} donations")
+
+        # 2. Anomaly Detection
+        if donations:
+            anomaly_data = [{
+                'food_category': d.food_category,
+                'hours_since_preparation': max(0, (datetime.utcnow() - d.prepared_at).total_seconds() / 3600) if d.prepared_at else 2,
+                'quantity_kg': d.quantity_kg,
+                'hour_of_day': d.created_at.hour if d.created_at else 12,
+            } for d in donations]
+            train_anomaly_detector(anomaly_data)
+            print(f"[OK] Anomaly model trained on {len(anomaly_data)} donations")
+
+        # 3. Demand Forecasting
+        if donations:
+            forecast_data = [{
+                'created_at': d.created_at,
+                'food_category': d.food_category,
+                'quantity_kg': d.quantity_kg,
+            } for d in donations if d.created_at]
+            train_forecast_model(forecast_data)
+
+        # 4. Collaborative Filtering
+        matches = db.query(Match).all()
+        if matches:
+            match_history = []
+            for m in matches:
+                donation = db.query(Donation).filter(Donation.id == m.donation_id).first()
+                if donation:
+                    match_history.append({
+                        'receiver_id': m.receiver_id,
+                        'food_category': donation.food_category,
+                        'is_accepted': m.is_accepted,
+                    })
+            if match_history:
+                build_preference_matrix(match_history)
+    except Exception as e:
+        print(f"[WARN] Error training new models: {e}")
+    finally:
+        db.close()
+
+
 # ── Startup Event ──────────────────────────────────────────
 @app.on_event("startup")
 def startup():
     create_tables()
     seed_database()
+    train_new_ml_models()

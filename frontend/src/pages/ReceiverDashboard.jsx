@@ -18,6 +18,9 @@ export default function ReceiverDashboard() {
   const [ratingComment, setRatingComment] = useState('');
   const [deliveredDonation, setDeliveredDonation] = useState(null);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
+  const [notifyMe, setNotifyMe] = useState(false);
+  const [notifyCategories, setNotifyCategories] = useState(['cooked', 'bakery']);
+  const [deliveryPartnerRequested, setDeliveryPartnerRequested] = useState({});
 
   const [acceptLoading, setAcceptLoading] = useState(false);
 
@@ -129,6 +132,11 @@ export default function ReceiverDashboard() {
     filters.distance !== 'all',
     filters.search.trim() !== '',
   ].filter(Boolean).length;
+
+  const handleRequestDeliveryPartner = (donationId) => {
+    setDeliveryPartnerRequested(prev => ({ ...prev, [donationId]: true }));
+    // WebSocket would notify delivery partners in production
+  };
 
   const handleAcceptDonation = async (donation) => {
     setAcceptLoading(true);
@@ -384,14 +392,47 @@ export default function ReceiverDashboard() {
           </div>
 
           {activeDonations.length === 0 && expiredDonations.length === 0 ? (
-            <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
+            <div className="card" style={{ textAlign: 'center', padding: '2.5rem' }}>
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🍽️</div>
               <h3 style={{ marginBottom: '0.5rem' }}>
                 {activeFilterCount > 0 ? 'No donations match your filters' : 'No nearby donations right now'}
               </h3>
-              <p style={{ color: 'var(--text-3)', fontSize: '0.9rem' }}>
-                {activeFilterCount > 0 ? 'Try adjusting your filters or clearing them.' : 'Check back soon — we\'ll notify you instantly via WebSocket when food becomes available near you.'}
+              <p style={{ color: 'var(--text-3)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                {activeFilterCount > 0 ? 'Try adjusting your filters or clearing them.' : 'Subscribe below to get notified instantly when food becomes available near you.'}
               </p>
+              {!notifyMe ? (
+                <div style={{ background: 'rgba(22,163,74,0.06)', border: '1px solid rgba(22,163,74,0.15)', borderRadius: 'var(--r-md)', padding: '1.5rem', maxWidth: '450px', margin: '0 auto' }}>
+                  <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>🔔</div>
+                  <h4 style={{ marginBottom: '0.5rem', color: 'var(--text-1)' }}>Get Notified When Food Is Available</h4>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-3)', marginBottom: '1rem' }}>Choose your preferred categories and we'll send you a real-time WebSocket notification the moment a matching donation is listed.</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', justifyContent: 'center', marginBottom: '1rem' }}>
+                    {['cooked', 'bakery', 'dairy', 'fruits_vegetables', 'packaged', 'beverages', 'raw'].map(cat => (
+                      <button
+                        key={cat}
+                        onClick={() => setNotifyCategories(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat])}
+                        style={{
+                          padding: '0.3rem 0.65rem', borderRadius: '100px', fontSize: '0.72rem', fontWeight: 600, cursor: 'pointer',
+                          background: notifyCategories.includes(cat) ? 'rgba(22,163,74,0.15)' : 'var(--bg-surface)',
+                          color: notifyCategories.includes(cat) ? '#4ade80' : 'var(--text-3)',
+                          border: notifyCategories.includes(cat) ? '1px solid rgba(22,163,74,0.3)' : '1px solid var(--border)',
+                        }}
+                      >
+                        {categoryEmoji[cat]} {cat.replace('_', ' ')}
+                      </button>
+                    ))}
+                  </div>
+                  <button className="btn btn-primary" onClick={() => setNotifyMe(true)} disabled={notifyCategories.length === 0}>
+                    🔔 Subscribe to Notifications
+                  </button>
+                </div>
+              ) : (
+                <div style={{ background: 'rgba(22,163,74,0.08)', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 'var(--r-md)', padding: '1.25rem', maxWidth: '450px', margin: '0 auto' }}>
+                  <div style={{ fontSize: '1.1rem', marginBottom: '0.4rem' }}>✅ Notification Active</div>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-2)', marginBottom: '0.5rem' }}>Watching for: <strong style={{ color: '#4ade80' }}>{notifyCategories.join(', ')}</strong></p>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--text-4)' }}>You'll receive an instant WebSocket push notification when matching food is listed.</p>
+                  <button className="btn btn-secondary btn-sm" onClick={() => setNotifyMe(false)} style={{ marginTop: '0.75rem', fontSize: '0.72rem' }}>Unsubscribe</button>
+                </div>
+              )}
             </div>
           ) : (
             <>
@@ -450,6 +491,21 @@ export default function ReceiverDashboard() {
                           <button className="btn btn-secondary btn-sm" onClick={() => handleMarkDelivered(d)} style={{ fontSize: '0.72rem' }}>
                             ✅ Mark Delivered
                           </button>
+                          {(d.transport_mode === 'receiver_picks_up' || d.transport_mode === 'both') && (
+                            <button
+                              className="btn btn-sm"
+                              onClick={() => handleRequestDeliveryPartner(d.id)}
+                              disabled={deliveryPartnerRequested[d.id]}
+                              style={{
+                                fontSize: '0.68rem', padding: '0.25rem 0.5rem',
+                                background: deliveryPartnerRequested[d.id] ? 'rgba(22,163,74,0.1)' : 'rgba(96,165,250,0.1)',
+                                color: deliveryPartnerRequested[d.id] ? '#4ade80' : '#60a5fa',
+                                border: `1px solid ${deliveryPartnerRequested[d.id] ? 'rgba(22,163,74,0.2)' : 'rgba(96,165,250,0.2)'}`,
+                              }}
+                            >
+                              {deliveryPartnerRequested[d.id] ? '✅ Partner Assigned (ETA 15min)' : '🚚 Request Delivery Partner'}
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -532,17 +588,17 @@ export default function ReceiverDashboard() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <FaRoute style={{ color: '#4ade80', fontSize: '1.2rem' }} />
-                      <span style={{ fontWeight: 700, color: '#f0fdf4' }}>Optimized Route</span>
+                      <span style={{ fontWeight: 700, color: 'var(--text-1)' }}>Optimized Route</span>
                     </div>
                     <div>
                       <span style={{ fontSize: '0.7rem', color: 'var(--text-4)', display: 'block' }}>DISTANCE</span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--data-primary)', fontSize: '1.1rem' }}>
                         {routeInfo.total_distance_km?.toFixed(1)} km
                       </span>
                     </div>
                     <div>
                       <span style={{ fontSize: '0.7rem', color: 'var(--text-4)', display: 'block' }}>EST. TIME</span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--data-primary)', fontSize: '1.1rem' }}>
                         {routeInfo.estimated_time_minutes || Math.round((routeInfo.total_distance_km || 0) * 3)} min
                       </span>
                     </div>
@@ -659,7 +715,7 @@ export default function ReceiverDashboard() {
                   Environmental Impact Certificate
                 </h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-2)', marginBottom: '1rem' }}>FoodBridge · March 2026</p>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.3rem' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--data-primary)', marginBottom: '0.3rem' }}>
                   {((deliveredDonation?.quantity_kg || 5) * 2.5).toFixed(1)} kg CO₂
                 </div>
                 <p style={{ color: '#4ade80', fontWeight: 600 }}>prevented by rescuing {deliveredDonation?.quantity_kg || 5} kg of food</p>

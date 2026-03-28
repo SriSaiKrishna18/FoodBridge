@@ -12,6 +12,7 @@ from backend.models.database import get_db, Donation, User, ImpactLog
 from backend.models.schemas import DonationCreate, DonationResponse
 from backend.routers.auth import get_current_user
 from backend.ml.spoilage import predict_spoilage
+from backend.ml.anomaly_detector import detect_anomaly
 
 router = APIRouter(prefix="/api/donations", tags=["Donations"])
 
@@ -28,6 +29,14 @@ async def create_donation(request: Request, data: DonationCreate, db: Session = 
         storage_type=data.storage_type,
         hours_since_preparation=hours_since,
         ambient_temperature=30.0
+    )
+
+    # Run anomaly detection (IsolationForest)
+    anomaly_result = detect_anomaly(
+        food_category=data.food_category,
+        hours_since_preparation=hours_since,
+        quantity_kg=data.quantity_kg,
+        hour_of_day=datetime.now().hour,
     )
 
     donation = Donation(
@@ -68,6 +77,8 @@ async def create_donation(request: Request, data: DonationCreate, db: Session = 
                 "longitude": donation.longitude,
                 "donor_name": current_user.name,
                 "timestamp": datetime.utcnow().isoformat(),
+                "anomaly_flagged": anomaly_result.get("is_anomaly", False),
+                "anomaly_reason": anomaly_result.get("reason", ""),
             }
         })
     except Exception:

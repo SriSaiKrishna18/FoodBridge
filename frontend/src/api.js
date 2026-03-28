@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -45,6 +45,10 @@ export const aiAPI = {
   categorize: (data) => api.post('/api/categorize', typeof data === 'string' ? { text: data } : data),
   route: (locations) => api.post('/api/route', { locations }),
   models: () => api.get('/api/models'),
+  clusters: () => api.get('/api/clusters'),
+  forecast: (hours = 6) => api.get(`/api/forecast?hours=${hours}`),
+  anomaly: (data) => api.post('/api/anomaly', data),
+  preference: (receiverId, foodCategory) => api.get(`/api/preference/${receiverId}?food_category=${foodCategory}`),
 };
 
 // ── Impact ────────────────────────────────────────────

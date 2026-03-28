@@ -9,13 +9,14 @@ from backend.models.database import get_db, Donation, User, Match
 from backend.models.schemas import MatchResponse, MatchAccept
 from backend.routers.auth import get_current_user
 from backend.ml.matcher import rank_receivers
+from backend.ml.collaborative_filter import preference_boost, get_preference_explanation
 
 router = APIRouter(prefix="/api/match", tags=["AI Matching"])
 
 
 @router.get("/{donation_id}", response_model=List[MatchResponse])
 def get_matches(donation_id: int, db: Session = Depends(get_db)):
-    """Get AI-ranked receiver matches for a donation."""
+    """Get AI-ranked receiver matches for a donation using GradientBoosting + Collaborative Filtering."""
     donation = db.query(Donation).filter(Donation.id == donation_id).first()
     if not donation:
         raise HTTPException(status_code=404, detail="Donation not found")
@@ -32,12 +33,23 @@ def get_matches(donation_id: int, db: Session = Depends(get_db)):
     if not receivers:
         return []
 
-    # Run AI matching
+    # Run AI matching (GradientBoosting)
     ranked = rank_receivers(donation, receivers)
+
+    # Blend with collaborative filtering
+    blended = []
+    for receiver, gb_score, distance in ranked:
+        pref_score = preference_boost(receiver.id, donation.food_category or 'cooked')
+        # 70% ML score + 30% collaborative filter
+        final_score = 0.7 * gb_score + 0.3 * pref_score
+        blended.append((receiver, final_score, distance))
+    
+    # Re-sort by blended score
+    blended.sort(key=lambda x: -x[1])
 
     # Save matches
     matches = []
-    for receiver, score, distance in ranked[:10]:  # Top 10
+    for receiver, score, distance in blended[:10]:  # Top 10
         match = Match(
             donation_id=donation_id,
             receiver_id=receiver.id,

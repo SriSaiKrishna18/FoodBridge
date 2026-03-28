@@ -2,7 +2,7 @@
 
 ### Vashisht Hackathon 3.0 | EcoTech Track | IIITDM Kancheepuram
 
-> **FoodBridge** uses 4 trained ML models to match surplus food with communities in need — optimizing routes, predicting spoilage, and quantifying environmental impact in real time.
+> **FoodBridge** uses 8 trained ML models to match surplus food with communities in need — optimizing routes, predicting spoilage, detecting anomalies, forecasting demand, clustering hotspots, and learning receiver preferences in real time.
 
 ---
 
@@ -12,7 +12,7 @@ India wastes **68.7 million tonnes** of food annually (FAO). Meanwhile, millions
 
 ## 💡 Our Solution
 
-FoodBridge is a **full-stack intelligent redistribution platform** powered by **4 distinct AI/ML components**:
+FoodBridge is a **full-stack intelligent redistribution platform** powered by **8 distinct AI/ML components**:
 
 | # | AI Engine | Technology | What It Does |
 |---|-----------|-----------|-------------|
@@ -20,11 +20,15 @@ FoodBridge is a **full-stack intelligent redistribution platform** powered by **
 | 2 | 🦠 **Spoilage Predictor** | RandomForest Classifier (sklearn) | Predicts food safety risk level (low/medium/high) with probability scores — 78% accuracy |
 | 3 | 📝 **NLP Categorizer** | TF-IDF + Keyword Matching | Extracts food type, quantity & items from plain-text descriptions — 7 food categories |
 | 4 | 🗺️ **Route Optimizer** | Nearest Neighbor TSP | Minimizes pickup distance & calculates CO₂ savings per optimized route |
+| 5 | 📍 **Hotspot Clustering** | KMeans (sklearn) | Identifies 5 food-waste hotspot zones from donation GPS coordinates |
+| 6 | ⚠️ **Anomaly Detection** | IsolationForest (sklearn) | Flags suspicious listings — unusual quantities, late-night submissions, old food |
+| 7 | 📈 **Demand Forecaster** | GradientBoosting Regressor (sklearn) | Predicts donation volume for next 6 hours by category — R²: 0.64 |
+| 8 | 🤝 **Collaborative Filter** | Cosine Similarity (sklearn) | Learns receiver food preferences from acceptance history — boosts match accuracy |
 
 ### What Makes This Different?
-- **Real trained ML models** — not just API calls or hardcoded rules. Models are serialized as `.pkl` files with real feature importances, training metrics, and test accuracy
-- **AI is integral to every flow** — from NLP food listing → spoilage prediction → AI matching → route optimization → impact calculation
-- **Quantified environmental impact** — every donation tracks kg saved, CO₂ prevented (1 kg waste ≈ 2.5 kg CO₂, IPCC), families fed, and route distance saved
+- **Real trained ML models** — not just API calls or hardcoded rules. 8 models serialized as `.pkl` files with real feature importances, training metrics, and test accuracy
+- **AI is integral to every flow** — from NLP food listing → anomaly check → spoilage prediction → AI matching (GBR + collaborative filter) → route optimization → impact calculation
+- **Proactive intelligence** — demand forecasting predicts surplus before it’s listed, hotspot clustering helps NGOs pre-position, anomaly detection flags food safety risks
 
 ---
 
@@ -94,8 +98,11 @@ FoodBridge is a **full-stack intelligent redistribution platform** powered by **
 - **React Icons** · **Axios** · **WebSocket**
 
 ### AI/ML
-- **GradientBoostingRegressor** — demand-supply matching (sklearn)
+- **GradientBoostingRegressor** — demand-supply matching + demand forecasting (sklearn)
 - **RandomForestClassifier** — spoilage risk prediction (sklearn)
+- **KMeans** — geographic hotspot clustering (sklearn)
+- **IsolationForest** — anomaly detection for food safety (sklearn)
+- **Cosine Similarity** — collaborative filtering for receiver preferences (sklearn)
 - **TF-IDF + Keyword Matching** — NLP food categorization
 - **Nearest Neighbor TSP** — route optimization
 
@@ -151,9 +158,13 @@ GET  /api/donations/available → Available donations only (for receivers)
 POST /api/spoilage          → Predict food safety risk (RandomForest)
 POST /api/categorize        → NLP auto-categorize food from text (TF-IDF)
 POST /api/route             → Optimized pickup route (TSP algorithm)
-GET  /api/match/{id}        → AI-ranked receiver matches (GradientBoosting)
+GET  /api/match/{id}        → AI-ranked receiver matches (GradientBoosting + CollabFilter)
 POST /api/match/accept      → Receiver accepts match
-GET  /api/models            → Trained model metadata & feature importances
+GET  /api/models            → All 8 trained model metadata & feature importances
+GET  /api/clusters          → Geographic hotspot zones (KMeans)
+GET  /api/forecast          → Predicted surplus for next 6 hours (GBR)
+POST /api/anomaly           → Check if donation is anomalous (IsolationForest)
+GET  /api/preference/{id}   → Receiver preference score (Collaborative Filter)
 ```
 
 ### Impact & Reviews
@@ -257,13 +268,16 @@ foodbridge/
 
 | Criteria | What We Did |
 |----------|------------|
-| **Real AI/ML** | 4 distinct trained models (not just APIs) with `.pkl` serialization, feature importances, and test metrics |
-| **End-to-End Flow** | Complete donor → AI analysis → matching → route → delivery → rating → impact cycle |
+| **Real AI/ML** | 8 distinct trained models (not just APIs) with `.pkl` serialization, feature importances, and test metrics |
+| **End-to-End Flow** | Complete donor → anomaly check → AI analysis → matching (GBR + collab filter) → route → delivery → rating → impact cycle |
+| **Proactive AI** | Demand forecasting, hotspot clustering, anomaly detection — intelligence that acts before problems occur |
 | **Quantified Impact** | Live CO₂ calculations, downloadable certificates, SDG alignment |
 | **Premium Design** | Dark EcoTech theme with glassmorphism, micro-animations, Leaflet maps, Chart.js |
 | **Voice AI** | Web Speech API integration for hands-free food description |
-| **Explainable AI** | Match explanations showing factor weights and scores |
-| **Real-Time** | WebSocket for instant notifications, live activity feed |
+| **Explainable AI** | Match explanations showing GBR factor weights + collaborative filter preference scores |
+| **Real-Time** | WebSocket for instant notifications, live activity feed, receiver alerts |
+| **Delivery Partners** | Third-party logistics matching for donors/receivers unable to transport |
+| **Smart Notifications** | Category-based subscription system alerts receivers when matching food appears |
 | **Scalable Data** | 90+ donations, 3 months of history, realistic Chennai locations |
 
 ---
