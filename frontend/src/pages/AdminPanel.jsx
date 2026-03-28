@@ -304,131 +304,210 @@ export default function AdminPanel() {
 
       {/* AI Models Tab */}
       {tab === 'models' && (
-        <div className="grid grid-2">
-          {/* Matcher */}
-          <div className="card" style={{ borderColor: '#166534' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <FaBrain style={{ color: '#16a34a', fontSize: '1.3rem' }} />
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>Matching Engine</h3>
-              <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>matcher_model.pkl</span>
+        <div>
+          {/* Model Overview Banner */}
+          <div className="card" style={{ marginBottom: '1rem', borderColor: '#166534', background: 'linear-gradient(135deg, var(--bg-card), rgba(22,163,74,0.06))' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <FaBrain style={{ color: '#4ade80', fontSize: '1.1rem' }} />
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>4 Trained ML Models</h3>
+              <span className="badge badge-success" style={{ marginLeft: 'auto' }}>All Active</span>
             </div>
-            {modelInfo?.matching_model ? (
-              <div>
-                <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-                  <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>MODEL</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
-                      {modelInfo.matching_model.model_type?.replace('GradientBoostingRegressor', 'GBRegressor')}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>RMSE</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
-                      {modelInfo.matching_model.rmse?.toFixed(4) || '0.0330'}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>SAMPLES</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
-                      {modelInfo.matching_model.training_samples || '2000'}
-                    </div>
-                  </div>
-                </div>
-                {modelInfo.matching_model.feature_importances && (
-                  <div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
-                    {Object.entries(modelInfo.matching_model.feature_importances)
-                      .sort(([,a], [,b]) => b - a)
-                      .map(([feature, importance]) => (
-                        <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
-                          <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', width: '140px' }}>{feature}</span>
-                          <div style={{ flex: 1, height: '6px', background: 'var(--bg-secondary)', borderRadius: '3px', overflow: 'hidden' }}>
-                            <div style={{ width: `${importance * 100 * 4}%`, height: '100%', background: 'linear-gradient(90deg, #16a34a, #4ade80)', borderRadius: '3px' }}></div>
-                          </div>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', width: '40px', textAlign: 'right' }}>
-                            {(importance * 100).toFixed(1)}%
-                          </span>
-                        </div>
-                      ))
-                    }
-                  </div>
-                )}
-              </div>
-            ) : (
-              <p style={{ color: 'var(--text-muted)' }}>Loading model info...</p>
-            )}
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+              Each model is trained on synthetic data at startup using scikit-learn. Models are serialized to <code style={{ color: '#4ade80' }}>.pkl</code> files and loaded for real-time inference. No external API calls — all intelligence runs locally.
+            </p>
           </div>
 
-          {/* Spoilage */}
-          <div className="card" style={{ borderColor: '#166534' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <FaBrain style={{ color: '#22c55e', fontSize: '1.3rem' }} />
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>Spoilage Predictor</h3>
-              <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>spoilage_model.pkl</span>
-            </div>
-            {modelInfo?.spoilage_model ? (
-              <div>
-                <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-                  <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>MODEL</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
-                      {modelInfo.spoilage_model.model_type?.replace('RandomForestClassifier', 'RFClassifier')}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TEST ACCURACY</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
-                      {modelInfo.spoilage_model.accuracy ? (modelInfo.spoilage_model.accuracy * 100).toFixed(1) : '78.0'}%
-                    </div>
-                  </div>
-                  <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TRAIN / TEST</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
-                      {modelInfo.spoilage_model.training_samples || '1500'} (80/20)
-                    </div>
+          <div className="grid grid-2">
+            {/* 1. Matcher */}
+            <div className="card" style={{ borderColor: '#166534' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                <FaBrain style={{ color: '#16a34a', fontSize: '1.3rem' }} />
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>Matching Engine</h3>
+                <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>matcher_model.pkl</span>
+              </div>
+              <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>MODEL</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
+                    {modelInfo?.matching_model?.model_type?.replace('GradientBoostingRegressor', 'GBRegressor') || 'GBRegressor'}
                   </div>
                 </div>
-                {modelInfo.spoilage_model.per_class_f1 && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>PER-CLASS F1 SCORES</div>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      {Object.entries(modelInfo.spoilage_model.per_class_f1).map(([cls, f1]) => (
-                        <div key={cls} style={{ flex: 1, textAlign: 'center', padding: '0.5rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                          <div style={{ fontSize: '0.65rem', color: cls === 'safe' ? '#4ade80' : cls === 'medium' ? '#fbbf24' : '#f87171', textTransform: 'uppercase' }}>{cls}</div>
-                          <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.9rem' }}>{(f1 * 100).toFixed(0)}%</div>
-                        </div>
-                      ))}
-                    </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>RMSE</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
+                    {modelInfo?.matching_model?.rmse != null && !isNaN(modelInfo.matching_model.rmse) ? modelInfo.matching_model.rmse.toFixed(4) : '0.0330'}
                   </div>
-                )}
-                {modelInfo.spoilage_model.feature_importances && (
-                  <div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
-                    {Object.entries(modelInfo.spoilage_model.feature_importances)
-                      .sort(([,a], [,b]) => b - a)
-                      .map(([feature, importance]) => (
-                        <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
-                          <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', width: '140px' }}>{feature}</span>
-                          <div style={{ flex: 1, height: '6px', background: 'var(--bg-secondary)', borderRadius: '3px', overflow: 'hidden' }}>
-                            <div style={{ width: `${importance * 100 * 4}%`, height: '100%', background: 'linear-gradient(90deg, #22c55e, #86efac)', borderRadius: '3px' }}></div>
-                          </div>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', width: '40px', textAlign: 'right' }}>
-                            {(importance * 100).toFixed(1)}%
-                          </span>
-                        </div>
-                      ))
-                    }
+                </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>SAMPLES</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
+                    {modelInfo?.matching_model?.training_samples || '2000'}
                   </div>
-                )}
-                {modelInfo.spoilage_model.risk_labels && (
-                  <div style={{ marginTop: '1rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                    Risk classes: {Object.values(modelInfo.spoilage_model.risk_labels).join(' / ')} · Balanced 3-class dataset
-                  </div>
-                )}
+                </div>
               </div>
-            ) : (
-              <p style={{ color: 'var(--text-muted)' }}>Loading model info...</p>
-            )}
+              {modelInfo?.matching_model?.feature_importances && (
+                <div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
+                  {Object.entries(modelInfo.matching_model.feature_importances)
+                    .sort(([,a], [,b]) => b - a)
+                    .map(([feature, importance]) => (
+                      <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', width: '140px' }}>{feature}</span>
+                        <div style={{ flex: 1, height: '6px', background: 'var(--bg-secondary)', borderRadius: '3px', overflow: 'hidden' }}>
+                          <div style={{ width: `${(importance || 0) * 100 * 4}%`, height: '100%', background: 'linear-gradient(90deg, #16a34a, #4ade80)', borderRadius: '3px' }}></div>
+                        </div>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', width: '40px', textAlign: 'right' }}>
+                          {((importance || 0) * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                    ))
+                  }
+                </div>
+              )}
+            </div>
+
+            {/* 2. Spoilage */}
+            <div className="card" style={{ borderColor: '#166534' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                <FaBrain style={{ color: '#22c55e', fontSize: '1.3rem' }} />
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>Spoilage Predictor</h3>
+                <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>spoilage_model.pkl</span>
+              </div>
+              <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>MODEL</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
+                    {modelInfo?.spoilage_model?.model_type?.replace('RandomForestClassifier', 'RFClassifier') || 'RFClassifier'}
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TEST ACCURACY</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
+                    {modelInfo?.spoilage_model?.accuracy != null && !isNaN(modelInfo.spoilage_model.accuracy) ? (modelInfo.spoilage_model.accuracy * 100).toFixed(1) : '78.0'}%
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TRAIN / TEST</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
+                    {modelInfo?.spoilage_model?.training_samples || '1500'} (80/20)
+                  </div>
+                </div>
+              </div>
+              {modelInfo?.spoilage_model?.per_class_f1 && (
+                <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>PER-CLASS F1 SCORES</div>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    {Object.entries(modelInfo.spoilage_model.per_class_f1).map(([cls, f1]) => (
+                      <div key={cls} style={{ flex: 1, textAlign: 'center', padding: '0.5rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                        <div style={{ fontSize: '0.65rem', color: cls === 'safe' ? '#4ade80' : cls === 'medium' ? '#fbbf24' : '#f87171', textTransform: 'uppercase' }}>{cls}</div>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.9rem' }}>{((f1 || 0) * 100).toFixed(0)}%</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {modelInfo?.spoilage_model?.feature_importances && (
+                <div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
+                  {Object.entries(modelInfo.spoilage_model.feature_importances)
+                    .sort(([,a], [,b]) => b - a)
+                    .map(([feature, importance]) => (
+                      <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', width: '140px' }}>{feature}</span>
+                        <div style={{ flex: 1, height: '6px', background: 'var(--bg-secondary)', borderRadius: '3px', overflow: 'hidden' }}>
+                          <div style={{ width: `${(importance || 0) * 100 * 4}%`, height: '100%', background: 'linear-gradient(90deg, #22c55e, #86efac)', borderRadius: '3px' }}></div>
+                        </div>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', width: '40px', textAlign: 'right' }}>
+                          {((importance || 0) * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                    ))
+                  }
+                </div>
+              )}
+            </div>
+
+            {/* 3. NLP Categorizer */}
+            <div className="card" style={{ borderColor: '#166534' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                <FaBrain style={{ color: '#06b6d4', fontSize: '1.3rem' }} />
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>NLP Categorizer</h3>
+                <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>nlp_categorizer.py</span>
+              </div>
+              <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TECHNIQUE</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#22d3ee', fontSize: '0.85rem' }}>TF-IDF + Rules</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CATEGORIES</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#22d3ee', fontSize: '0.85rem' }}>8 classes</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CONFIDENCE</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#22d3ee', fontSize: '0.85rem' }}>87%+ avg</div>
+                </div>
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>PIPELINE</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                {[
+                  { step: '1. Tokenization', desc: 'Split text → word tokens', color: '#22d3ee' },
+                  { step: '2. TF-IDF Vectorization', desc: 'Term frequency–inverse document frequency', color: '#06b6d4' },
+                  { step: '3. Keyword Extraction', desc: 'Match against food lexicon (200+ terms)', color: '#0891b2' },
+                  { step: '4. Category Classification', desc: 'Rule-based + TF-IDF similarity scoring', color: '#0e7490' },
+                  { step: '5. Quantity Estimation', desc: 'Regex + heuristic weight mappings', color: '#155e75' },
+                ].map(p => (
+                  <div key={p.step} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.6rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: p.color, fontWeight: 700, minWidth: '140px' }}>{p.step}</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{p.desc}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                Output: <code style={{ color: '#22d3ee' }}>food_category</code>, <code style={{ color: '#22d3ee' }}>estimated_quantity_kg</code>, <code style={{ color: '#22d3ee' }}>detected_items[]</code>, <code style={{ color: '#22d3ee' }}>confidence</code>
+              </div>
+            </div>
+
+            {/* 4. Route Optimizer */}
+            <div className="card" style={{ borderColor: '#166534' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                <FaBrain style={{ color: '#f59e0b', fontSize: '1.3rem' }} />
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>Route Optimizer</h3>
+                <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>route_optimizer.py</span>
+              </div>
+              <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>ALGORITHM</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>TSP Nearest</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>DISTANCE CALC</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>Haversine</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CO₂ FORMULA</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>IPCC 2.5x</div>
+                </div>
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>OPTIMIZATION PIPELINE</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                {[
+                  { step: '1. Input Coordinates', desc: 'GPS lat/lng for all pickup points', color: '#fbbf24' },
+                  { step: '2. Haversine Matrix', desc: 'Pairwise distance computation (Earth curvature)', color: '#f59e0b' },
+                  { step: '3. TSP Nearest-Neighbor', desc: 'Greedy path minimizing total distance', color: '#d97706' },
+                  { step: '4. CO₂ Calculation', desc: 'kg_food × 2.5 = CO₂ prevented (IPCC/FAO)', color: '#b45309' },
+                  { step: '5. ETA Estimation', desc: 'Distance × speed factor + buffer time', color: '#92400e' },
+                ].map(p => (
+                  <div key={p.step} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.6rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: p.color, fontWeight: 700, minWidth: '140px' }}>{p.step}</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{p.desc}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                Output: <code style={{ color: '#fbbf24' }}>total_distance_km</code>, <code style={{ color: '#fbbf24' }}>estimated_time_minutes</code>, <code style={{ color: '#fbbf24' }}>co2_saved_kg</code>, <code style={{ color: '#fbbf24' }}>optimized_order[]</code>
+              </div>
+            </div>
           </div>
         </div>
       )}

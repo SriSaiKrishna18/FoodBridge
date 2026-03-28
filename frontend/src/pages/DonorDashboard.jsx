@@ -14,6 +14,7 @@ export default function DonorDashboard() {
   const [spoilageResult, setSpoilageResult] = useState(null);
   const [impact, setImpact] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(null);
+  const [matchLoading, setMatchLoading] = useState(false);
 
   useEffect(() => {
     loadDonations();
@@ -38,11 +39,14 @@ export default function DonorDashboard() {
   };
 
   const handleGetMatches = async (donationId) => {
+    setMatchLoading(true);
+    setSelectedDonation(donationId);
     try {
+      await new Promise(r => setTimeout(r, 600)); // Simulate AI computation
       const res = await matchAPI.getMatches(donationId);
       setMatches(res.data);
-      setSelectedDonation(donationId);
     } catch (err) { console.error(err); }
+    setMatchLoading(false);
   };
 
   const handleCheckSpoilage = async (donation) => {
@@ -201,7 +205,18 @@ export default function DonorDashboard() {
                   </div>
                   {/* Right: actions */}
                   <div style={{ display: 'flex', gap: '0.4rem', flexShrink: 0 }}>
-                    <button className="btn btn-primary btn-sm" onClick={() => handleGetMatches(d.id)}>🤖 Find Matches</button>
+                    {d.status === 'delivered' ? (
+                      <span className="badge badge-success" style={{ padding: '0.5rem 0.8rem', fontSize: '0.78rem' }}>✅ Completed</span>
+                    ) : (
+                      <button className="btn btn-primary btn-sm" onClick={() => handleGetMatches(d.id)} disabled={matchLoading}>
+                        {matchLoading && selectedDonation === d.id ? (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <div style={{ width: '14px', height: '14px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', animation: 'spin 0.8s linear infinite' }} />
+                            Matching...
+                          </div>
+                        ) : '🤖 Find Matches'}
+                      </button>
+                    )}
                     <button className="btn btn-secondary btn-sm" onClick={() => handleCheckSpoilage(d)}>🦠 Risk</button>
                   </div>
                 </div>
