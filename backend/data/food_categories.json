@@ -1,0 +1,44 @@
+{
+    "cooked": {
+        "subcategories": ["rice", "curry", "bread", "soup", "pasta", "noodles"],
+        "typical_serving_kg": 0.3,
+        "safe_hours_room_temp": 4,
+        "safe_hours_refrigerated": 48
+    },
+    "bakery": {
+        "subcategories": ["bread", "cake", "pastry", "cookies", "muffins"],
+        "typical_serving_kg": 0.15,
+        "safe_hours_room_temp": 24,
+        "safe_hours_refrigerated": 168
+    },
+    "fruits_vegetables": {
+        "subcategories": ["fruits", "leafy_greens", "root_vegetables", "mixed"],
+        "typical_serving_kg": 0.2,
+        "safe_hours_room_temp": 24,
+        "safe_hours_refrigerated": 168
+    },
+    "dairy": {
+        "subcategories": ["milk", "cheese", "yogurt", "butter", "cream"],
+        "typical_serving_kg": 0.25,
+        "safe_hours_room_temp": 2,
+        "safe_hours_refrigerated": 120
+    },
+    "packaged": {
+        "subcategories": ["snacks", "canned", "instant", "beverages"],
+        "typical_serving_kg": 0.1,
+        "safe_hours_room_temp": 720,
+        "safe_hours_refrigerated": 2160
+    },
+    "beverages": {
+        "subcategories": ["juice", "tea", "coffee", "water", "smoothie"],
+        "typical_serving_kg": 0.3,
+        "safe_hours_room_temp": 48,
+        "safe_hours_refrigerated": 336
+    },
+    "raw": {
+        "subcategories": ["meat", "grains", "flour", "pulses", "spices"],
+        "typical_serving_kg": 0.5,
+        "safe_hours_room_temp": 6,
+        "safe_hours_refrigerated": 72
+    }
+}

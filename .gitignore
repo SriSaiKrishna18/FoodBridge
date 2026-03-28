@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Database
+*.db
+*.sqlite3
+
+# Build
+frontend/dist/
+frontend/build/
+
+# ML Models (too large for git, retrained on startup)
+*.pkl
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Logs
+*.log
