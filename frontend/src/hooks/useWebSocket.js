@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 
-const WS_URL = 'ws://localhost:8000/ws';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const WS_URL = API_BASE.replace(/^http/, 'ws') + '/ws';
 
 export function useWebSocket() {
   const wsRef = useRef(null);
