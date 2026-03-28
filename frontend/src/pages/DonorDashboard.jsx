@@ -300,7 +300,33 @@ export default function DonorDashboard() {
             </div>
           </div>
 
-          {/* Donation History Insights */}
+          {/* Donation History Insights — computed from actual data */}
+          {(() => {
+            // Top category
+            const catCounts = {};
+            myDonations.forEach(d => { catCounts[d.food_category] = (catCounts[d.food_category] || 0) + 1; });
+            const topCat = Object.entries(catCounts).sort((a, b) => b[1] - a[1])[0];
+            const topCatName = topCat ? topCat[0] : 'cooked';
+            const topCatPct = topCat ? Math.round(topCat[1] / myDonations.length * 100) : 0;
+            const catEmoji = { cooked: '🍛', bakery: '🍞', fruits_vegetables: '🥗', dairy: '🥛', packaged: '📦', beverages: '🥤', raw: '🥩' };
+
+            // Busiest day
+            const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayCounts = {};
+            myDonations.forEach(d => {
+              if (d.created_at) {
+                const day = DAYS[new Date(d.created_at).getDay()];
+                dayCounts[day] = (dayCounts[day] || 0) + 1;
+              }
+            });
+            const topDay = Object.entries(dayCounts).sort((a, b) => b[1] - a[1])[0];
+            const busiestDay = topDay ? topDay[0] : 'Friday';
+            const busiestCount = topDay ? topDay[1] : 0;
+
+            // Success rate
+            const successRate = myDonations.length > 0 ? Math.round(delivered / myDonations.length * 100) : 0;
+
+            return (
           <div className="card animate-in animate-delay-2" style={{ borderColor: '#166534', marginBottom: '1.5rem' }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <FaChartBar style={{ color: '#22c55e' }} /> Your Donation Patterns
@@ -308,29 +334,30 @@ export default function DonorDashboard() {
             <div className="grid grid-2" style={{ gap: '1rem' }}>
               <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>TOP FOOD CATEGORY</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>🍛 Cooked Food</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>65% of your donations</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>{catEmoji[topCatName] || '🍽️'} {topCatName.replace('_', ' ')}</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{topCatPct}% of your donations</div>
               </div>
               <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>BUSIEST DAY</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>📅 Friday Evening</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>3x more surplus than weekdays</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>📅 {busiestDay}</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{busiestCount} donations on this day</div>
               </div>
               <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>SUCCESS RATE</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '1.1rem' }}>94%</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{delivered} of {myDonations.length} donations picked up</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '1.1rem' }}>{successRate}%</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{delivered} of {myDonations.length} donations delivered</div>
               </div>
               <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>TRUST SCORE</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>AVG DONATION SIZE</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '1.1rem' }}>4.8</div>
-                  <FaStar style={{ color: '#fbbf24', fontSize: '0.9rem' }} />
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '1.1rem' }}>{myDonations.length > 0 ? (totalKg / myDonations.length).toFixed(1) : 0} kg</div>
                 </div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Based on {Math.round(myDonations.length * 0.85)} receiver reviews</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Across {myDonations.length} total donations</div>
               </div>
             </div>
           </div>
+            );
+          })()}
 
           {/* Environmental Certificate Preview */}
           <div className="card animate-in animate-delay-3" style={{ 
