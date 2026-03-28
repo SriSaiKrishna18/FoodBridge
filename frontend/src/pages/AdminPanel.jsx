@@ -13,7 +13,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tool
 const chartOptions = {
   responsive: true,
   plugins: {
-    legend: { labels: { color: '#d1fae5', font: { family: 'Inter' } } },
+    legend: { labels: { color: '#d1fae5', font: { family: 'Plus Jakarta Sans' } } },
   },
   scales: {
     x: { ticks: { color: '#6ee7b7' }, grid: { color: 'rgba(26,58,34,0.5)' } },
@@ -170,7 +170,7 @@ export default function AdminPanel() {
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <FaHistory style={{ color: '#4ade80' }} /> Pilot Metrics
             </h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>
+            <p style={{ color: 'var(--text-2)', fontSize: '0.92rem', lineHeight: 1.7 }}>
               With <strong style={{ color: '#4ade80' }}>{donations.length} donations</strong> across <strong style={{ color: '#4ade80' }}>12 partner organizations</strong> in Chennai, 
               FoodBridge achieved an average match time of <strong style={{ color: '#4ade80' }}>16 minutes</strong> and a{' '}
               <strong style={{ color: '#4ade80' }}>94% successful pickup rate</strong> in our pilot dataset. 
@@ -186,24 +186,24 @@ export default function AdminPanel() {
               <span className="badge badge-warning" style={{ marginLeft: 'auto' }}>AI Forecast</span>
             </h3>
             <div className="grid grid-4" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-              <div style={{ padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TIME WINDOW</div>
+              <div style={{ padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>TIME WINDOW</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff' }}>7-10 PM</div>
               </div>
-              <div style={{ padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>EXPECTED</div>
+              <div style={{ padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>EXPECTED</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80' }}>8-12 kg</div>
               </div>
-              <div style={{ padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>RECEIVERS</div>
+              <div style={{ padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>RECEIVERS</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24' }}>6 ready</div>
               </div>
-              <div style={{ padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CONFIDENCE</div>
+              <div style={{ padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>CONFIDENCE</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80' }}>83%</div>
               </div>
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.7 }}>
+            <p style={{ color: 'var(--text-2)', fontSize: '0.88rem', lineHeight: 1.7 }}>
               FoodBridge doesn't just react to food waste — it <strong style={{ color: '#4ade80' }}>anticipates it</strong>. 
               Our predictive model analyzes day-of-week and time-of-day patterns across {donations.length} historical donations, 
               pre-alerting <strong style={{ color: '#fbbf24' }}>nearby receivers</strong> before surplus food is even listed.
@@ -232,8 +232,8 @@ export default function AdminPanel() {
                       <span style={{ fontSize: '1.2rem' }}>{a.icon}</span>
                       <div style={{ flex: 1 }}>
                         <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>{a.event}</span>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem' }}> — "{a.title}" ({a.quantity} kg)</span>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginTop: '0.1rem' }}>
+                        <span style={{ color: 'var(--text-2)', fontSize: '0.82rem' }}> — "{a.title}" ({a.quantity} kg)</span>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-4)', marginTop: '0.1rem' }}>
                           {a.donor} · {a.time}
                         </div>
                       </div>
@@ -277,10 +277,10 @@ export default function AdminPanel() {
                             {n.type}
                           </span>
                           <span style={{ fontWeight: 600, fontSize: '0.82rem' }}>→ {n.to}</span>
-                          <span style={{ marginLeft: 'auto', fontSize: '0.6rem', color: 'var(--text-dim)' }}>{n.time}</span>
+                          <span style={{ marginLeft: 'auto', fontSize: '0.6rem', color: 'var(--text-4)' }}>{n.time}</span>
                         </div>
                         <p style={{
-                          fontSize: '0.75rem', color: 'var(--text-secondary)',
+                          fontSize: '0.75rem', color: 'var(--text-2)',
                           margin: 0, lineHeight: 1.4,
                           fontFamily: 'var(--font-mono)',
                         }}>
@@ -294,7 +294,7 @@ export default function AdminPanel() {
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: '0.75rem', padding: '0.75rem 1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+              <div style={{ marginTop: '0.75rem', padding: '0.75rem 1rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', fontSize: '0.78rem', color: 'var(--text-3)', textAlign: 'center' }}>
                 📱 In production: <strong style={{ color: '#60a5fa' }}>Twilio</strong> for real SMS + <strong style={{ color: '#22c55e' }}>WhatsApp Business API</strong> for instant delivery notifications
               </div>
             </div>
@@ -312,7 +312,7 @@ export default function AdminPanel() {
               <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>4 Trained ML Models</h3>
               <span className="badge badge-success" style={{ marginLeft: 'auto' }}>All Active</span>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-2)', lineHeight: 1.7 }}>
               Each model is trained on synthetic data at startup using scikit-learn. Models are serialized to <code style={{ color: '#4ade80' }}>.pkl</code> files and loaded for real-time inference. No external API calls — all intelligence runs locally.
             </p>
           </div>
@@ -326,20 +326,20 @@ export default function AdminPanel() {
                 <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>matcher_model.pkl</span>
               </div>
               <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>MODEL</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>MODEL</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
                     {modelInfo?.matching_model?.model_type?.replace('GradientBoostingRegressor', 'GBRegressor') || 'GBRegressor'}
                   </div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>RMSE</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>RMSE</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
                     {modelInfo?.matching_model?.rmse != null && !isNaN(modelInfo.matching_model.rmse) ? modelInfo.matching_model.rmse.toFixed(4) : '0.0330'}
                   </div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>SAMPLES</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>SAMPLES</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
                     {modelInfo?.matching_model?.training_samples || '2000'}
                   </div>
@@ -347,16 +347,16 @@ export default function AdminPanel() {
               </div>
               {modelInfo?.matching_model?.feature_importances && (
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
                   {Object.entries(modelInfo.matching_model.feature_importances)
                     .sort(([,a], [,b]) => b - a)
                     .map(([feature, importance]) => (
                       <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
-                        <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', width: '140px' }}>{feature}</span>
-                        <div style={{ flex: 1, height: '6px', background: 'var(--bg-secondary)', borderRadius: '3px', overflow: 'hidden' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-2)', width: '140px' }}>{feature}</span>
+                        <div style={{ flex: 1, height: '6px', background: 'var(--bg-surface)', borderRadius: '3px', overflow: 'hidden' }}>
                           <div style={{ width: `${(importance || 0) * 100 * 4}%`, height: '100%', background: 'linear-gradient(90deg, #16a34a, #4ade80)', borderRadius: '3px' }}></div>
                         </div>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', width: '40px', textAlign: 'right' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-3)', width: '40px', textAlign: 'right' }}>
                           {((importance || 0) * 100).toFixed(1)}%
                         </span>
                       </div>
@@ -374,20 +374,20 @@ export default function AdminPanel() {
                 <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>spoilage_model.pkl</span>
               </div>
               <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>MODEL</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>MODEL</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
                     {modelInfo?.spoilage_model?.model_type?.replace('RandomForestClassifier', 'RFClassifier') || 'RFClassifier'}
                   </div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TEST ACCURACY</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>TEST ACCURACY</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '0.85rem' }}>
                     {modelInfo?.spoilage_model?.accuracy != null && !isNaN(modelInfo.spoilage_model.accuracy) ? (modelInfo.spoilage_model.accuracy * 100).toFixed(1) : '78.0'}%
                   </div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TRAIN / TEST</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>TRAIN / TEST</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
                     {modelInfo?.spoilage_model?.training_samples || '1500'} (80/20)
                   </div>
@@ -395,10 +395,10 @@ export default function AdminPanel() {
               </div>
               {modelInfo?.spoilage_model?.per_class_f1 && (
                 <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>PER-CLASS F1 SCORES</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>PER-CLASS F1 SCORES</div>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     {Object.entries(modelInfo.spoilage_model.per_class_f1).map(([cls, f1]) => (
-                      <div key={cls} style={{ flex: 1, textAlign: 'center', padding: '0.5rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                      <div key={cls} style={{ flex: 1, textAlign: 'center', padding: '0.5rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
                         <div style={{ fontSize: '0.65rem', color: cls === 'safe' ? '#4ade80' : cls === 'medium' ? '#fbbf24' : '#f87171', textTransform: 'uppercase' }}>{cls}</div>
                         <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.9rem' }}>{((f1 || 0) * 100).toFixed(0)}%</div>
                       </div>
@@ -408,16 +408,16 @@ export default function AdminPanel() {
               )}
               {modelInfo?.spoilage_model?.feature_importances && (
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>FEATURE IMPORTANCES</div>
                   {Object.entries(modelInfo.spoilage_model.feature_importances)
                     .sort(([,a], [,b]) => b - a)
                     .map(([feature, importance]) => (
                       <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
-                        <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', width: '140px' }}>{feature}</span>
-                        <div style={{ flex: 1, height: '6px', background: 'var(--bg-secondary)', borderRadius: '3px', overflow: 'hidden' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-2)', width: '140px' }}>{feature}</span>
+                        <div style={{ flex: 1, height: '6px', background: 'var(--bg-surface)', borderRadius: '3px', overflow: 'hidden' }}>
                           <div style={{ width: `${(importance || 0) * 100 * 4}%`, height: '100%', background: 'linear-gradient(90deg, #22c55e, #86efac)', borderRadius: '3px' }}></div>
                         </div>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', width: '40px', textAlign: 'right' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-3)', width: '40px', textAlign: 'right' }}>
                           {((importance || 0) * 100).toFixed(1)}%
                         </span>
                       </div>
@@ -435,20 +435,20 @@ export default function AdminPanel() {
                 <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>nlp_categorizer.py</span>
               </div>
               <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TECHNIQUE</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>TECHNIQUE</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#22d3ee', fontSize: '0.85rem' }}>TF-IDF + Rules</div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CATEGORIES</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>CATEGORIES</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#22d3ee', fontSize: '0.85rem' }}>8 classes</div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CONFIDENCE</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>CONFIDENCE</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#22d3ee', fontSize: '0.85rem' }}>87%+ avg</div>
                 </div>
               </div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>PIPELINE</div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>PIPELINE</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 {[
                   { step: '1. Tokenization', desc: 'Split text → word tokens', color: '#22d3ee' },
@@ -457,13 +457,13 @@ export default function AdminPanel() {
                   { step: '4. Category Classification', desc: 'Rule-based + TF-IDF similarity scoring', color: '#0e7490' },
                   { step: '5. Quantity Estimation', desc: 'Regex + heuristic weight mappings', color: '#155e75' },
                 ].map(p => (
-                  <div key={p.step} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.6rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div key={p.step} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.6rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: p.color, fontWeight: 700, minWidth: '140px' }}>{p.step}</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{p.desc}</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>{p.desc}</span>
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+              <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--text-2)' }}>
                 Output: <code style={{ color: '#22d3ee' }}>food_category</code>, <code style={{ color: '#22d3ee' }}>estimated_quantity_kg</code>, <code style={{ color: '#22d3ee' }}>detected_items[]</code>, <code style={{ color: '#22d3ee' }}>confidence</code>
               </div>
             </div>
@@ -476,20 +476,20 @@ export default function AdminPanel() {
                 <span className="ai-card-tag" style={{ marginLeft: 'auto', marginTop: 0 }}>route_optimizer.py</span>
               </div>
               <div className="grid grid-3" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>ALGORITHM</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>ALGORITHM</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>TSP Nearest</div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>DISTANCE CALC</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>DISTANCE CALC</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>Haversine</div>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CO₂ FORMULA</div>
+                <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>CO₂ FORMULA</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>IPCC 2.5x</div>
                 </div>
               </div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>OPTIMIZATION PIPELINE</div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>OPTIMIZATION PIPELINE</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 {[
                   { step: '1. Input Coordinates', desc: 'GPS lat/lng for all pickup points', color: '#fbbf24' },
@@ -498,13 +498,13 @@ export default function AdminPanel() {
                   { step: '4. CO₂ Calculation', desc: 'kg_food × 2.5 = CO₂ prevented (IPCC/FAO)', color: '#b45309' },
                   { step: '5. ETA Estimation', desc: 'Distance × speed factor + buffer time', color: '#92400e' },
                 ].map(p => (
-                  <div key={p.step} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.6rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                  <div key={p.step} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.6rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: p.color, fontWeight: 700, minWidth: '140px' }}>{p.step}</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{p.desc}</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>{p.desc}</span>
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+              <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--text-2)' }}>
                 Output: <code style={{ color: '#fbbf24' }}>total_distance_km</code>, <code style={{ color: '#fbbf24' }}>estimated_time_minutes</code>, <code style={{ color: '#fbbf24' }}>co2_saved_kg</code>, <code style={{ color: '#fbbf24' }}>optimized_order[]</code>
               </div>
             </div>
@@ -528,8 +528,8 @@ export default function AdminPanel() {
                 <div key={d.rank} style={{
                   display: 'flex', alignItems: 'center', gap: '0.75rem',
                   padding: '0.75rem 1rem',
-                  background: d.rank <= 3 ? 'rgba(251,191,36,0.04)' : 'var(--bg-secondary)',
-                  borderRadius: 'var(--radius-sm)',
+                  background: d.rank <= 3 ? 'rgba(251,191,36,0.04)' : 'var(--bg-surface)',
+                  borderRadius: 'var(--r-sm)',
                   border: d.rank <= 3 ? '1px solid rgba(251,191,36,0.15)' : '1px solid var(--border)',
                   transition: 'transform 0.15s, box-shadow 0.15s',
                 }}>
@@ -541,7 +541,7 @@ export default function AdminPanel() {
                     background: d.rank === 1 ? 'linear-gradient(135deg, #fbbf24, #f59e0b)' :
                                 d.rank === 2 ? 'linear-gradient(135deg, #9ca3af, #6b7280)' :
                                 d.rank === 3 ? 'linear-gradient(135deg, #cd7f32, #a0522d)' : 'var(--bg-card)',
-                    color: d.rank <= 3 ? '#000' : 'var(--text-secondary)',
+                    color: d.rank <= 3 ? '#000' : 'var(--text-2)',
                     border: d.rank > 3 ? '1px solid var(--border)' : 'none',
                     flexShrink: 0,
                   }}>
@@ -562,7 +562,7 @@ export default function AdminPanel() {
                         }}>VERIFIED ✓</span>
                       )}
                     </div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-3)' }}>
                       {d.org} · {d.donations} donations
                     </div>
                   </div>
@@ -571,18 +571,18 @@ export default function AdminPanel() {
                   <div style={{ display: 'flex', gap: '1rem', flexShrink: 0, alignItems: 'center', fontSize: '0.78rem' }}>
                     <div style={{ textAlign: 'center' }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff' }}>{d.kg}</div>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)' }}>KG</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-4)' }}>KG</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80' }}>{d.co2}</div>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)' }}>CO₂</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-4)' }}>CO₂</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.15rem' }}>
                         <FaStar style={{ color: '#fbbf24', fontSize: '0.7rem' }} />
                         <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24' }}>{d.rating}</span>
                       </div>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)' }}>{d.reviews} reviews</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-4)' }}>{d.reviews} reviews</div>
                     </div>
                   </div>
                 </div>
@@ -603,8 +603,8 @@ export default function AdminPanel() {
                 <div key={r.rank} style={{
                   display: 'flex', alignItems: 'center', gap: '0.75rem',
                   padding: '0.75rem 1rem',
-                  background: r.rank <= 3 ? 'rgba(96,165,250,0.04)' : 'var(--bg-secondary)',
-                  borderRadius: 'var(--radius-sm)',
+                  background: r.rank <= 3 ? 'rgba(96,165,250,0.04)' : 'var(--bg-surface)',
+                  borderRadius: 'var(--r-sm)',
                   border: r.rank <= 3 ? '1px solid rgba(96,165,250,0.15)' : '1px solid var(--border)',
                 }}>
                   <div style={{
@@ -614,7 +614,7 @@ export default function AdminPanel() {
                     background: r.rank === 1 ? 'linear-gradient(135deg, #60a5fa, #3b82f6)' :
                                 r.rank === 2 ? 'linear-gradient(135deg, #9ca3af, #6b7280)' :
                                 r.rank === 3 ? 'linear-gradient(135deg, #cd7f32, #a0522d)' : 'var(--bg-card)',
-                    color: r.rank <= 3 ? '#000' : 'var(--text-secondary)',
+                    color: r.rank <= 3 ? '#000' : 'var(--text-2)',
                     border: r.rank > 3 ? '1px solid var(--border)' : 'none',
                     flexShrink: 0,
                   }}>
@@ -622,23 +622,23 @@ export default function AdminPanel() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>{r.name}</span>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{r.org} · {r.pickups} pickups</div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-3)' }}>{r.org} · {r.pickups} pickups</div>
                   </div>
                   <div style={{ display: 'flex', gap: '1rem', flexShrink: 0, alignItems: 'center', fontSize: '0.78rem' }}>
                     <div style={{ textAlign: 'center' }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff' }}>{r.kg}</div>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)' }}>KG DISTRIBUTED</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-4)' }}>KG DISTRIBUTED</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80' }}>{r.reliability}%</div>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)' }}>RELIABILITY</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-4)' }}>RELIABILITY</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.15rem' }}>
                         <FaStar style={{ color: '#fbbf24', fontSize: '0.7rem' }} />
                         <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24' }}>{r.rating}</span>
                       </div>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)' }}>RATING</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-4)' }}>RATING</div>
                     </div>
                   </div>
                 </div>
@@ -658,12 +658,12 @@ export default function AdminPanel() {
               ].map((b, i) => (
                 <div key={i} style={{
                   textAlign: 'center', padding: '1rem',
-                  background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)',
+                  background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)',
                   border: '1px solid var(--border)',
                 }}>
                   <div style={{ fontSize: '2rem', marginBottom: '0.3rem' }}>{b.emoji}</div>
                   <div style={{ fontWeight: 700, fontSize: '0.85rem', color: b.color }}>{b.name}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{b.desc}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-3)' }}>{b.desc}</div>
                 </div>
               ))}
             </div>
@@ -692,14 +692,14 @@ export default function AdminPanel() {
                 ))}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.6rem', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.6rem', fontSize: '0.72rem', color: 'var(--text-3)' }}>
               <span>🟢 Supply = Donation density (food available)</span>
               <span>🔴 Demand = Receiver need (unmet requests)</span>
               <span>🟡 Both = Supply-demand overlap zones</span>
             </div>
           </div>
 
-          <div className="hero-map-wrapper" style={{ borderRadius: 'var(--radius-lg)' }}>
+          <div className="hero-map-wrapper" style={{ borderRadius: 'var(--r-lg)' }}>
             <div className="hero-map-label">
               <FaMapMarkedAlt style={{ marginRight: '0.3rem' }} />
               {heatmapMode === 'supply' ? '📦 Food Supply Density' : heatmapMode === 'demand' ? '🏠 Receiver Demand Density' : '📊 Supply vs Demand Overlap'} — Chennai
@@ -746,7 +746,7 @@ export default function AdminPanel() {
               <FaFire style={{ color: '#f59e0b' }} />
               <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '0.95rem' }}>Geographic Insights</h3>
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.7 }}>
+            <p style={{ color: 'var(--text-2)', fontSize: '0.88rem', lineHeight: 1.7 }}>
               <strong style={{ color: '#fbbf24' }}>Vyasarpadi</strong> and <strong style={{ color: '#fbbf24' }}>Tondiarpet</strong> show 
               high demand but low supply — FoodBridge proactively alerts donors in adjacent zones like 
               <strong style={{ color: '#4ade80' }}> T. Nagar</strong> and <strong style={{ color: '#4ade80' }}>Adyar</strong> (where surplus is concentrated) 

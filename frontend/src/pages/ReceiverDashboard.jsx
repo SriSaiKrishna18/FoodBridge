@@ -255,7 +255,7 @@ export default function ReceiverDashboard() {
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
               {/* Search */}
               <div style={{ flex: 1, minWidth: '200px', position: 'relative' }}>
-                <FaSearch style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)', fontSize: '0.8rem' }} />
+                <FaSearch style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-4)', fontSize: '0.8rem' }} />
                 <input
                   className="form-control"
                   placeholder="Search food, donor, category..."
@@ -302,7 +302,7 @@ export default function ReceiverDashboard() {
             {showFilters && (
               <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', flexWrap: 'wrap' }}>
                 <div style={{ flex: 1, minWidth: '140px' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>CATEGORY</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>CATEGORY</div>
                   <select
                     className="form-control"
                     value={filters.category}
@@ -320,7 +320,7 @@ export default function ReceiverDashboard() {
                   </select>
                 </div>
                 <div style={{ flex: 1, minWidth: '140px' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>RISK LEVEL</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>RISK LEVEL</div>
                   <select
                     className="form-control"
                     value={filters.risk}
@@ -334,7 +334,7 @@ export default function ReceiverDashboard() {
                   </select>
                 </div>
                 <div style={{ flex: 1, minWidth: '140px' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>TRANSPORT</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>TRANSPORT</div>
                   <select
                     className="form-control"
                     value={filters.transport}
@@ -348,7 +348,7 @@ export default function ReceiverDashboard() {
                   </select>
                 </div>
                 <div style={{ flex: 1, minWidth: '200px' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>DISTANCE RADIUS</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)', marginBottom: '0.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>DISTANCE RADIUS</div>
                   <div style={{ display: 'flex', gap: '0.35rem' }}>
                     {[
                       { val: 'all', label: 'All' },
@@ -375,8 +375,8 @@ export default function ReceiverDashboard() {
           </div>
 
           {/* Results count */}
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            Showing <strong style={{ color: 'var(--text-primary)' }}>{activeDonations.length}</strong> active
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-3)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            Showing <strong style={{ color: 'var(--text-1)' }}>{activeDonations.length}</strong> active
             {expiredDonations.length > 0 && <span> · {expiredDonations.length} expired</span>}
             {filters.sortBy === 'urgency' && ' · Sorted by spoilage urgency'}
             {filters.sortBy === 'distance' && ' · Sorted by distance from you'}
@@ -389,7 +389,7 @@ export default function ReceiverDashboard() {
               <h3 style={{ marginBottom: '0.5rem' }}>
                 {activeFilterCount > 0 ? 'No donations match your filters' : 'No nearby donations right now'}
               </h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+              <p style={{ color: 'var(--text-3)', fontSize: '0.9rem' }}>
                 {activeFilterCount > 0 ? 'Try adjusting your filters or clearing them.' : 'Check back soon — we\'ll notify you instantly via WebSocket when food becomes available near you.'}
               </p>
             </div>
@@ -412,8 +412,8 @@ export default function ReceiverDashboard() {
                             {transportBadge(d.transport_mode)}
                             <CountdownTimer createdAt={d.created_at} windowHours={d.redistribution_window_hours} />
                           </div>
-                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '0.5rem' }}>{d.description}</p>
-                          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                          <p style={{ color: 'var(--text-2)', fontSize: '0.85rem', marginBottom: '0.5rem' }}>{d.description}</p>
+                          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.82rem', color: 'var(--text-3)' }}>
                             <span>📦 {d.quantity_kg} kg</span>
                             <span>🍽️ Serves {d.serves}</span>
                             <span><FaClock style={{ marginRight: '0.25rem' }} />{d.redistribution_window_hours}h window</span>
@@ -535,19 +535,19 @@ export default function ReceiverDashboard() {
                       <span style={{ fontWeight: 700, color: '#f0fdf4' }}>Optimized Route</span>
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', display: 'block' }}>DISTANCE</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-4)', display: 'block' }}>DISTANCE</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>
                         {routeInfo.total_distance_km?.toFixed(1)} km
                       </span>
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', display: 'block' }}>EST. TIME</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-4)', display: 'block' }}>EST. TIME</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>
                         {routeInfo.estimated_time_minutes || Math.round((routeInfo.total_distance_km || 0) * 3)} min
                       </span>
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', display: 'block' }}>CO₂ SAVED</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-4)', display: 'block' }}>CO₂ SAVED</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '1.1rem' }}>
                         <FaLeaf style={{ marginRight: '0.2rem' }} />
                         {routeInfo.co2_saved_kg?.toFixed(2) || '0.35'} kg
@@ -560,9 +560,9 @@ export default function ReceiverDashboard() {
                   </div>
 
                   {/* AI Match Explanation Panel */}
-                  <div style={{ marginTop: '1rem', padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
+                  <div style={{ marginTop: '1rem', padding: '1rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                      <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', fontWeight: 600, letterSpacing: '0.05em' }}>🤖 WHY YOU WERE MATCHED</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-4)', fontWeight: 600, letterSpacing: '0.05em' }}>🤖 WHY YOU WERE MATCHED</span>
                       <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '1rem' }}>
                         {Math.round((matches[0]?.match_score || 0.87) * 100)}%
                       </span>
@@ -576,15 +576,15 @@ export default function ReceiverDashboard() {
                     ].map((f, i) => (
                       <div key={i} style={{ marginBottom: '0.5rem' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '0.2rem' }}>
-                          <span style={{ color: 'var(--text-secondary)' }}>✓ {f.label}: <strong>{f.value}</strong></span>
-                          <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', fontSize: '0.7rem' }}>weight: {f.weight}%</span>
+                          <span style={{ color: 'var(--text-2)' }}>✓ {f.label}: <strong>{f.value}</strong></span>
+                          <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-4)', fontSize: '0.7rem' }}>weight: {f.weight}%</span>
                         </div>
                         <div style={{ height: '4px', background: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
                           <div style={{ height: '100%', width: `${f.score}%`, background: f.color, borderRadius: '4px', transition: 'width 0.8s ease' }} />
                         </div>
                       </div>
                     ))}
-                    <div style={{ marginTop: '0.5rem', fontSize: '0.72rem', color: 'var(--text-dim)', textAlign: 'right' }}>
+                    <div style={{ marginTop: '0.5rem', fontSize: '0.72rem', color: 'var(--text-4)', textAlign: 'right' }}>
                       Top pick from {Math.min(matches.length || 3, 6)} candidates · GradientBoosting model
                     </div>
                   </div>
@@ -592,7 +592,7 @@ export default function ReceiverDashboard() {
               )}
 
               {/* Map with polyline */}
-              <div className="hero-map-wrapper" style={{ borderRadius: 'var(--radius-lg)' }}>
+              <div className="hero-map-wrapper" style={{ borderRadius: 'var(--r-lg)' }}>
                 <div className="hero-map-label">
                   🛣️ Route: Your Location → {selectedDonation.donor?.name || selectedDonation.title}
                 </div>
@@ -610,8 +610,8 @@ export default function ReceiverDashboard() {
                   <h3>{selectedDonation.title}</h3>
                   {transportBadge(selectedDonation.transport_mode)}
                 </div>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{selectedDonation.description}</p>
-                <div style={{ marginTop: '0.75rem', display: 'flex', gap: '1.5rem', fontSize: '0.85rem', color: 'var(--text-muted)', flexWrap: 'wrap' }}>
+                <p style={{ color: 'var(--text-2)', fontSize: '0.9rem' }}>{selectedDonation.description}</p>
+                <div style={{ marginTop: '0.75rem', display: 'flex', gap: '1.5rem', fontSize: '0.85rem', color: 'var(--text-3)', flexWrap: 'wrap' }}>
                   <span>📦 {selectedDonation.quantity_kg} kg</span>
                   <span>🍽️ Serves {selectedDonation.serves}</span>
                   <span>⏱️ {selectedDonation.redistribution_window_hours}h window</span>
@@ -627,7 +627,7 @@ export default function ReceiverDashboard() {
             <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🗺️</div>
               <h3 style={{ marginBottom: '0.5rem' }}>Select a donation to see the optimized route</h3>
-              <p style={{ color: 'var(--text-muted)' }}>Go to Browse tab and click "Accept & Route" on any donation.</p>
+              <p style={{ color: 'var(--text-3)' }}>Go to Browse tab and click "Accept & Route" on any donation.</p>
             </div>
           )}
         </div>
@@ -658,12 +658,12 @@ export default function ReceiverDashboard() {
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, marginBottom: '0.5rem' }}>
                   Environmental Impact Certificate
                 </h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>FoodBridge · March 2026</p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-2)', marginBottom: '1rem' }}>FoodBridge · March 2026</p>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.3rem' }}>
                   {((deliveredDonation?.quantity_kg || 5) * 2.5).toFixed(1)} kg CO₂
                 </div>
                 <p style={{ color: '#4ade80', fontWeight: 600 }}>prevented by rescuing {deliveredDonation?.quantity_kg || 5} kg of food</p>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', margin: '0.75rem 0' }}>
+                <p style={{ color: 'var(--text-3)', fontSize: '0.82rem', margin: '0.75rem 0' }}>
                   Equivalent to planting <strong style={{ color: '#4ade80' }}>{Math.max(1, Math.round((deliveredDonation?.quantity_kg || 5) * 2.5 / 22))} trees</strong> 🌳
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '0.3rem', marginTop: '0.5rem' }}>
@@ -671,7 +671,7 @@ export default function ReceiverDashboard() {
                     <FaStar key={s} style={{ color: s <= ratingValue ? '#fbbf24' : 'var(--border)', fontSize: '1.3rem' }} />
                   ))}
                 </div>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '0.5rem' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginTop: '0.5rem' }}>
                   Thank you for your {ratingValue}★ rating!
                 </p>
               </div>
@@ -683,7 +683,7 @@ export default function ReceiverDashboard() {
                   <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, marginBottom: '0.3rem' }}>
                     Rate This Donation
                   </h3>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-2)' }}>
                     How was the food from "{deliveredDonation?.title}"?
                   </p>
                 </div>

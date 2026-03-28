@@ -88,7 +88,7 @@ export default function DonorDashboard() {
       {/* AI Forecast Teaser Banner */}
       <div className="animate-in" style={{
         background: 'linear-gradient(135deg, rgba(22,163,74,0.08), rgba(245,158,11,0.05))',
-        border: '1px solid var(--border-hover)', borderRadius: 'var(--radius-md)',
+        border: '1px solid var(--border-hover)', borderRadius: 'var(--r-md)',
         padding: '0.75rem 1.25rem', marginBottom: '1rem',
         display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap',
         cursor: 'pointer',
@@ -96,12 +96,12 @@ export default function DonorDashboard() {
         <span style={{ fontSize: '1.2rem' }}>🔮</span>
         <div style={{ flex: 1, minWidth: '200px' }}>
           <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>AI Forecast: </span>
-          <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
+          <span style={{ color: 'var(--text-2)', fontSize: '0.88rem' }}>
             We predict <strong style={{ color: '#4ade80' }}>8–12 kg surplus</strong> tonight (7–10 PM). 
             <strong style={{ color: '#fbbf24' }}> 6 receivers</strong> ready for immediate pickup.
           </span>
         </div>
-        <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>83% confidence →</span>
+        <span style={{ fontSize: '0.72rem', color: 'var(--text-4)', fontFamily: 'var(--font-mono)' }}>83% confidence →</span>
       </div>
       <div className="tabs">
         <button className={`tab ${tab === 'list' ? 'active' : ''}`} onClick={() => setTab('list')}>
@@ -123,7 +123,7 @@ export default function DonorDashboard() {
         <div className="animate-in" style={{
           position: 'fixed', bottom: '2rem', right: '2rem',
           background: 'linear-gradient(135deg, #15803d, #16a34a)',
-          color: 'white', padding: '1rem 1.5rem', borderRadius: 'var(--radius-md)',
+          color: 'white', padding: '1rem 1.5rem', borderRadius: 'var(--r-md)',
           boxShadow: '0 8px 32px rgba(22,163,74,0.4)',
           zIndex: 9999, maxWidth: '380px',
           display: 'flex', alignItems: 'center', gap: '0.75rem',
@@ -144,19 +144,19 @@ export default function DonorDashboard() {
           {/* Quick stats bar */}
           <div className="grid grid-4" style={{ gap: '0.75rem', marginBottom: '1.5rem' }}>
             <div className="card" style={{ padding: '1rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>TOTAL</div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>TOTAL</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '1.3rem', color: '#ffffff' }}>{myDonations.length}</div>
             </div>
             <div className="card" style={{ padding: '1rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>DELIVERED</div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>DELIVERED</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '1.3rem', color: '#4ade80' }}>{delivered}</div>
             </div>
             <div className="card" style={{ padding: '1rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>MATCHED</div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>MATCHED</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '1.3rem', color: '#fbbf24' }}>{matched}</div>
             </div>
             <div className="card" style={{ padding: '1rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>KG RESCUED</div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>KG RESCUED</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '1.3rem', color: '#ffffff' }}>{Math.round(totalKg)}</div>
             </div>
           </div>
@@ -178,10 +178,10 @@ export default function DonorDashboard() {
                       </span>
                       <CountdownTimer createdAt={d.created_at} windowHours={d.redistribution_window_hours} />
                     </div>
-                    <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
+                    <div style={{ fontSize: '0.82rem', color: 'var(--text-2)', marginBottom: '0.4rem' }}>
                       {d.description}
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem', fontSize: '0.78rem', color: 'var(--text-muted)', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '1rem', fontSize: '0.78rem', color: 'var(--text-3)', flexWrap: 'wrap' }}>
                       <span>📦 {d.quantity_kg} kg</span>
                       <span>🍽️ Serves {d.serves}</span>
                       <span>🏷️ {d.food_category}</span>
@@ -234,7 +234,7 @@ export default function DonorDashboard() {
                 <div><strong>Window</strong><br /><span style={{ fontFamily: 'var(--font-mono)' }}>{spoilageResult.redistribute_within_hours}h left</span></div>
                 <div><strong>Model</strong><br /><span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>{spoilageResult.model_used}</span></div>
               </div>
-              <div style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{spoilageResult.recommendation}</div>
+              <div style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--text-2)' }}>{spoilageResult.recommendation}</div>
             </div>
           )}
 
@@ -270,30 +270,30 @@ export default function DonorDashboard() {
               <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>Predicted Surplus</h3>
               <span className="badge badge-info" style={{ marginLeft: 'auto' }}>AI Forecast</span>
             </div>
-            <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', border: '1px solid var(--border)' }}>
+            <div style={{ background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', padding: '1.25rem', border: '1px solid var(--border)' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#ffffff', fontSize: '1rem', marginBottom: '0.5rem' }}>
                 🔮 Tonight, 7–10 PM
               </div>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.7, marginBottom: '0.75rem' }}>
+              <p style={{ color: 'var(--text-2)', fontSize: '0.88rem', lineHeight: 1.7, marginBottom: '0.75rem' }}>
                 Based on your donation history and local patterns, we predict <strong style={{ color: '#4ade80' }}>8–12 kg of surplus</strong> from 
                 restaurants in <strong style={{ color: '#4ade80' }}>T. Nagar and Adyar</strong> tonight. We've pre-identified 
                 <strong style={{ color: '#fbbf24' }}> 6 nearby receivers</strong> who are available for immediate pickup.
               </p>
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>EXPECTED SURPLUS</div>
+                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>EXPECTED SURPLUS</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80' }}>8-12 kg</div>
                 </div>
-                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>PEAK WINDOW</div>
+                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>PEAK WINDOW</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff' }}>7:00 – 10:00 PM</div>
                 </div>
-                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>RECEIVERS READY</div>
+                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>RECEIVERS READY</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24' }}>6 nearby</div>
                 </div>
-                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-dim)' }}>CONFIDENCE</div>
+                <div style={{ padding: '0.5rem 0.75rem', background: 'var(--bg-card)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>CONFIDENCE</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80' }}>83%</div>
                 </div>
               </div>
@@ -332,27 +332,27 @@ export default function DonorDashboard() {
               <FaChartBar style={{ color: '#22c55e' }} /> Your Donation Patterns
             </h3>
             <div className="grid grid-2" style={{ gap: '1rem' }}>
-              <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>TOP FOOD CATEGORY</div>
+              <div style={{ padding: '1rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>TOP FOOD CATEGORY</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>{catEmoji[topCatName] || '🍽️'} {topCatName.replace('_', ' ')}</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{topCatPct}% of your donations</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-3)', marginTop: '0.2rem' }}>{topCatPct}% of your donations</div>
               </div>
-              <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>BUSIEST DAY</div>
+              <div style={{ padding: '1rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>BUSIEST DAY</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#ffffff', fontSize: '1.1rem' }}>📅 {busiestDay}</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{busiestCount} donations on this day</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-3)', marginTop: '0.2rem' }}>{busiestCount} donations on this day</div>
               </div>
-              <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>SUCCESS RATE</div>
+              <div style={{ padding: '1rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>SUCCESS RATE</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4ade80', fontSize: '1.1rem' }}>{successRate}%</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{delivered} of {myDonations.length} donations delivered</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-3)', marginTop: '0.2rem' }}>{delivered} of {myDonations.length} donations delivered</div>
               </div>
-              <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>AVG DONATION SIZE</div>
+              <div style={{ padding: '1rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-4)', marginBottom: '0.5rem' }}>AVG DONATION SIZE</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fbbf24', fontSize: '1.1rem' }}>{myDonations.length > 0 ? (totalKg / myDonations.length).toFixed(1) : 0} kg</div>
                 </div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Across {myDonations.length} total donations</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-3)', marginTop: '0.2rem' }}>Across {myDonations.length} total donations</div>
               </div>
             </div>
           </div>
@@ -369,16 +369,16 @@ export default function DonorDashboard() {
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.2rem', marginBottom: '0.5rem' }}>
               Environmental Impact Certificate
             </h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>
+            <p style={{ color: 'var(--text-2)', fontSize: '0.9rem', marginBottom: '1rem' }}>
               FoodBridge · March 2026
             </p>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.3rem' }}>
               {totalCO2} kg CO₂
             </div>
-            <p style={{ color: 'var(--accent-bright)', fontSize: '0.95rem', fontWeight: 600 }}>
+            <p style={{ color: 'var(--g300)', fontSize: '0.95rem', fontWeight: 600 }}>
               prevented by rescuing {Math.round(totalKg)} kg of food
             </p>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.75rem' }}>
+            <p style={{ color: 'var(--text-3)', fontSize: '0.85rem', marginTop: '0.75rem' }}>
               Equivalent to planting <strong style={{ color: '#4ade80' }}>{Math.round(totalCO2 / 22)} trees</strong> 🌳 · SDG #12 · SDG #13
             </p>
             <button
@@ -439,7 +439,7 @@ export default function DonorDashboard() {
         }}>
           <div style={{
             background: 'var(--bg-card)', border: '1px solid var(--border-hover)',
-            borderRadius: 'var(--radius-xl)', maxWidth: '720px', width: '100%',
+            borderRadius: 'var(--r-xl)', maxWidth: '720px', width: '100%',
             maxHeight: '85vh', overflow: 'auto', padding: '2rem',
             boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
           }}>
@@ -449,14 +449,14 @@ export default function DonorDashboard() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   🤖 AI Match Results
                 </h2>
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                <p style={{ fontSize: '0.82rem', color: 'var(--text-3)', marginTop: '0.2rem' }}>
                   Ranked by: Distance · Compatibility · Reliability · Urgency
                 </p>
               </div>
               <button onClick={() => { setMatches([]); setSelectedDonation(null); }} style={{
-                background: 'var(--bg-secondary)', border: '1px solid var(--border)',
+                background: 'var(--bg-surface)', border: '1px solid var(--border)',
                 borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer',
-                color: 'var(--text-muted)', fontSize: '1.2rem', display: 'flex',
+                color: 'var(--text-3)', fontSize: '1.2rem', display: 'flex',
                 alignItems: 'center', justifyContent: 'center',
               }}>✕</button>
             </div>
@@ -464,12 +464,12 @@ export default function DonorDashboard() {
             {/* Model Info Badge */}
             <div style={{
               padding: '0.6rem 1rem', background: 'rgba(22,163,74,0.06)',
-              border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--border)', borderRadius: 'var(--r-sm)',
               marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
               fontSize: '0.78rem', flexWrap: 'wrap',
             }}>
               <span className="badge badge-success">GradientBoosting</span>
-              <span style={{ color: 'var(--text-muted)' }}>7 features · RMSE: 0.033 · {matches.length} candidates evaluated</span>
+              <span style={{ color: 'var(--text-3)' }}>7 features · RMSE: 0.033 · {matches.length} candidates evaluated</span>
               <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', color: '#4ade80', fontWeight: 600 }}>
                 Donation #{selectedDonation}
               </span>
@@ -490,9 +490,9 @@ export default function DonorDashboard() {
                 ];
                 return (
                   <div key={m.id || i} style={{
-                    background: i === 0 ? 'linear-gradient(135deg, var(--bg-secondary), rgba(22,163,74,0.08))' : 'var(--bg-secondary)',
+                    background: i === 0 ? 'linear-gradient(135deg, var(--bg-surface), rgba(22,163,74,0.08))' : 'var(--bg-surface)',
                     border: i === 0 ? '2px solid #16a34a' : '1px solid var(--border)',
-                    borderRadius: 'var(--radius-md)', padding: '1.25rem',
+                    borderRadius: 'var(--r-md)', padding: '1.25rem',
                     position: 'relative',
                   }}>
                     {i === 0 && (
@@ -523,7 +523,7 @@ export default function DonorDashboard() {
                             #{i + 1} {m.receiver?.name || `Receiver ${m.id}`}
                           </span>
                         </div>
-                        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.82rem', color: 'var(--text-secondary)', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.82rem', color: 'var(--text-2)', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
                           <span>📍 {distKm.toFixed(1)} km</span>
                           <span><FaStar style={{ color: '#fbbf24', marginRight: '0.15rem' }} />Trust: {trust}%</span>
                           {m.receiver?.organization && <span>🏢 {m.receiver.organization}</span>}
@@ -534,7 +534,7 @@ export default function DonorDashboard() {
                         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                           {factors.map(f => (
                             <div key={f.name} style={{ flex: 1, minWidth: '90px' }}>
-                              <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)', marginBottom: '0.15rem', fontWeight: 600, letterSpacing: '0.05em' }}>{f.name.toUpperCase()}</div>
+                              <div style={{ fontSize: '0.6rem', color: 'var(--text-4)', marginBottom: '0.15rem', fontWeight: 600, letterSpacing: '0.05em' }}>{f.name.toUpperCase()}</div>
                               <div style={{ background: 'var(--bg-card)', borderRadius: '4px', height: '6px', overflow: 'hidden' }}>
                                 <div style={{ width: `${f.value}%`, height: '100%', background: f.color, borderRadius: '4px', transition: 'width 0.6s ease' }} />
                               </div>
@@ -565,7 +565,7 @@ export default function DonorDashboard() {
             {/* Footer */}
             <div style={{
               marginTop: '1rem', padding: '0.75rem', textAlign: 'center',
-              fontSize: '0.72rem', color: 'var(--text-dim)',
+              fontSize: '0.72rem', color: 'var(--text-4)',
               borderTop: '1px solid var(--border)',
             }}>
               ⚡ Matched by GradientBoostingRegressor · 7 features · Trained on 2000 samples · RMSE: 0.033
