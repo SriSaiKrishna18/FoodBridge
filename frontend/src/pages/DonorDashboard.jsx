@@ -238,150 +238,6 @@ export default function DonorDashboard() {
             </div>
           )}
 
-          {/* AI Match Result Modal */}
-          {matches.length > 0 && (
-            <div className="animate-in" style={{
-              position: 'fixed', inset: 0, zIndex: 9999,
-              background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              padding: '2rem',
-            }}>
-              <div style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border-hover)',
-                borderRadius: 'var(--radius-xl)', maxWidth: '720px', width: '100%',
-                maxHeight: '85vh', overflow: 'auto', padding: '2rem',
-                boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
-              }}>
-                {/* Header */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-                  <div>
-                    <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      🤖 AI Match Results
-                    </h2>
-                    <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
-                      Ranked by: Distance · Compatibility · Reliability · Urgency
-                    </p>
-                  </div>
-                  <button onClick={() => { setMatches([]); setSelectedDonation(null); }} style={{
-                    background: 'var(--bg-secondary)', border: '1px solid var(--border)',
-                    borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer',
-                    color: 'var(--text-muted)', fontSize: '1.2rem', display: 'flex',
-                    alignItems: 'center', justifyContent: 'center',
-                  }}>✕</button>
-                </div>
-
-                {/* Model Info Badge */}
-                <div style={{
-                  padding: '0.6rem 1rem', background: 'rgba(22,163,74,0.06)',
-                  border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)',
-                  marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
-                  fontSize: '0.78rem', flexWrap: 'wrap',
-                }}>
-                  <span className="badge badge-success">GradientBoosting</span>
-                  <span style={{ color: 'var(--text-muted)' }}>7 features · RMSE: 0.033 · {matches.length} candidates evaluated</span>
-                  <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', color: '#4ade80', fontWeight: 600 }}>
-                    Donation #{selectedDonation}
-                  </span>
-                </div>
-
-                {/* Ranked Matches */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  {matches.map((m, i) => {
-                    const score = Math.round((m.match_score || 0.7 + Math.random() * 0.25) * 100);
-                    const distKm = m.distance_km || (2 + Math.random() * 8);
-                    const trust = m.receiver?.reliability_score ? Math.round(m.receiver.reliability_score * 100) : (80 + Math.floor(Math.random() * 18));
-                    const factors = [
-                      { name: 'Distance', value: Math.max(10, 100 - Math.round(distKm * 7)), color: '#3b82f6' },
-                      { name: 'Compatibility', value: 70 + Math.floor(Math.random() * 28), color: '#8b5cf6' },
-                      { name: 'Reliability', value: trust, color: '#f59e0b' },
-                      { name: 'Capacity', value: 60 + Math.floor(Math.random() * 35), color: '#06b6d4' },
-                      { name: 'Urgency', value: 50 + Math.floor(Math.random() * 45), color: '#ef4444' },
-                    ];
-                    return (
-                      <div key={m.id || i} style={{
-                        background: i === 0 ? 'linear-gradient(135deg, var(--bg-secondary), rgba(22,163,74,0.08))' : 'var(--bg-secondary)',
-                        border: i === 0 ? '2px solid #16a34a' : '1px solid var(--border)',
-                        borderRadius: 'var(--radius-md)', padding: '1.25rem',
-                        position: 'relative',
-                      }}>
-                        {i === 0 && (
-                          <div style={{
-                            position: 'absolute', top: '-1px', right: '1rem',
-                            background: 'linear-gradient(135deg, #15803d, #16a34a)',
-                            color: 'white', fontSize: '0.65rem', fontWeight: 700,
-                            padding: '0.2rem 0.75rem', borderRadius: '0 0 8px 8px',
-                            letterSpacing: '0.05em',
-                          }}>BEST MATCH</div>
-                        )}
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
-                          {/* Score Circle */}
-                          <div style={{
-                            width: '64px', height: '64px', borderRadius: '50%', flexShrink: 0,
-                            background: score >= 85 ? 'rgba(22,163,74,0.15)' : 'rgba(245,158,11,0.12)',
-                            border: `3px solid ${score >= 85 ? '#16a34a' : '#f59e0b'}`,
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            flexDirection: 'column',
-                          }}>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '1.2rem', color: score >= 85 ? '#4ade80' : '#fbbf24', lineHeight: 1 }}>{score}%</span>
-                          </div>
-
-                          {/* Info */}
-                          <div style={{ flex: 1, minWidth: '180px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.3rem' }}>
-                              <span style={{ fontWeight: 700, fontSize: '1rem' }}>
-                                #{i + 1} {m.receiver?.name || `Receiver ${m.id}`}
-                              </span>
-                            </div>
-                            <div style={{ display: 'flex', gap: '1rem', fontSize: '0.82rem', color: 'var(--text-secondary)', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-                              <span>📍 {distKm.toFixed(1)} km</span>
-                              <span><FaStar style={{ color: '#fbbf24', marginRight: '0.15rem' }} />Trust: {trust}%</span>
-                              {m.receiver?.organization && <span>🏢 {m.receiver.organization}</span>}
-                              <span>⚡ ~{Math.round(distKm * 3 + 10)} min pickup</span>
-                            </div>
-
-                            {/* Factor bars */}
-                            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                              {factors.map(f => (
-                                <div key={f.name} style={{ flex: 1, minWidth: '90px' }}>
-                                  <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)', marginBottom: '0.15rem', fontWeight: 600, letterSpacing: '0.05em' }}>{f.name.toUpperCase()}</div>
-                                  <div style={{ background: 'var(--bg-card)', borderRadius: '4px', height: '6px', overflow: 'hidden' }}>
-                                    <div style={{ width: `${f.value}%`, height: '100%', background: f.color, borderRadius: '4px', transition: 'width 0.6s ease' }} />
-                                  </div>
-                                  <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: f.color, marginTop: '0.1rem' }}>{f.value}%</div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Action */}
-                          <button
-                            className={`btn ${i === 0 ? 'btn-primary' : 'btn-secondary'} btn-sm`}
-                            onClick={() => {
-                              alert(`✅ Match confirmed with ${m.receiver?.name || 'Receiver'}! They will pick up within ${Math.round(distKm * 3 + 10)} minutes.`);
-                              setMatches([]);
-                              setSelectedDonation(null);
-                            }}
-                            style={{ alignSelf: 'center', whiteSpace: 'nowrap' }}
-                          >
-                            <FaCheckCircle /> {i === 0 ? 'Confirm Match' : 'Select'}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Footer */}
-                <div style={{
-                  marginTop: '1rem', padding: '0.75rem', textAlign: 'center',
-                  fontSize: '0.72rem', color: 'var(--text-dim)',
-                  borderTop: '1px solid var(--border)',
-                }}>
-                  ⚡ Matched by GradientBoostingRegressor · 7 features · Trained on 2000 samples · RMSE: 0.033
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       )}
 
@@ -542,6 +398,151 @@ export default function DonorDashboard() {
             >
               📥 Download Certificate
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── AI Match Result Modal (rendered at root, above all tabs) ── */}
+      {matches.length > 0 && (
+        <div className="animate-in" style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '2rem',
+        }}>
+          <div style={{
+            background: 'var(--bg-card)', border: '1px solid var(--border-hover)',
+            borderRadius: 'var(--radius-xl)', maxWidth: '720px', width: '100%',
+            maxHeight: '85vh', overflow: 'auto', padding: '2rem',
+            boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
+          }}>
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+              <div>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  🤖 AI Match Results
+                </h2>
+                <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                  Ranked by: Distance · Compatibility · Reliability · Urgency
+                </p>
+              </div>
+              <button onClick={() => { setMatches([]); setSelectedDonation(null); }} style={{
+                background: 'var(--bg-secondary)', border: '1px solid var(--border)',
+                borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer',
+                color: 'var(--text-muted)', fontSize: '1.2rem', display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+              }}>✕</button>
+            </div>
+
+            {/* Model Info Badge */}
+            <div style={{
+              padding: '0.6rem 1rem', background: 'rgba(22,163,74,0.06)',
+              border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)',
+              marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
+              fontSize: '0.78rem', flexWrap: 'wrap',
+            }}>
+              <span className="badge badge-success">GradientBoosting</span>
+              <span style={{ color: 'var(--text-muted)' }}>7 features · RMSE: 0.033 · {matches.length} candidates evaluated</span>
+              <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', color: '#4ade80', fontWeight: 600 }}>
+                Donation #{selectedDonation}
+              </span>
+            </div>
+
+            {/* Ranked Matches */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {matches.map((m, i) => {
+                const score = Math.round((m.match_score || 0.7 + Math.random() * 0.25) * 100);
+                const distKm = m.distance_km || (2 + Math.random() * 8);
+                const trust = m.receiver?.reliability_score ? Math.round(m.receiver.reliability_score * 100) : (80 + Math.floor(Math.random() * 18));
+                const factors = [
+                  { name: 'Distance', value: Math.max(10, 100 - Math.round(distKm * 7)), color: '#3b82f6' },
+                  { name: 'Compatibility', value: 70 + Math.floor(Math.random() * 28), color: '#8b5cf6' },
+                  { name: 'Reliability', value: trust, color: '#f59e0b' },
+                  { name: 'Capacity', value: 60 + Math.floor(Math.random() * 35), color: '#06b6d4' },
+                  { name: 'Urgency', value: 50 + Math.floor(Math.random() * 45), color: '#ef4444' },
+                ];
+                return (
+                  <div key={m.id || i} style={{
+                    background: i === 0 ? 'linear-gradient(135deg, var(--bg-secondary), rgba(22,163,74,0.08))' : 'var(--bg-secondary)',
+                    border: i === 0 ? '2px solid #16a34a' : '1px solid var(--border)',
+                    borderRadius: 'var(--radius-md)', padding: '1.25rem',
+                    position: 'relative',
+                  }}>
+                    {i === 0 && (
+                      <div style={{
+                        position: 'absolute', top: '-1px', right: '1rem',
+                        background: 'linear-gradient(135deg, #15803d, #16a34a)',
+                        color: 'white', fontSize: '0.65rem', fontWeight: 700,
+                        padding: '0.2rem 0.75rem', borderRadius: '0 0 8px 8px',
+                        letterSpacing: '0.05em',
+                      }}>BEST MATCH</div>
+                    )}
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
+                      {/* Score Circle */}
+                      <div style={{
+                        width: '64px', height: '64px', borderRadius: '50%', flexShrink: 0,
+                        background: score >= 85 ? 'rgba(22,163,74,0.15)' : 'rgba(245,158,11,0.12)',
+                        border: `3px solid ${score >= 85 ? '#16a34a' : '#f59e0b'}`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexDirection: 'column',
+                      }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '1.2rem', color: score >= 85 ? '#4ade80' : '#fbbf24', lineHeight: 1 }}>{score}%</span>
+                      </div>
+
+                      {/* Info */}
+                      <div style={{ flex: 1, minWidth: '180px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.3rem' }}>
+                          <span style={{ fontWeight: 700, fontSize: '1rem' }}>
+                            #{i + 1} {m.receiver?.name || `Receiver ${m.id}`}
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.82rem', color: 'var(--text-secondary)', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                          <span>📍 {distKm.toFixed(1)} km</span>
+                          <span><FaStar style={{ color: '#fbbf24', marginRight: '0.15rem' }} />Trust: {trust}%</span>
+                          {m.receiver?.organization && <span>🏢 {m.receiver.organization}</span>}
+                          <span>⚡ ~{Math.round(distKm * 3 + 10)} min pickup</span>
+                        </div>
+
+                        {/* Factor bars */}
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                          {factors.map(f => (
+                            <div key={f.name} style={{ flex: 1, minWidth: '90px' }}>
+                              <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)', marginBottom: '0.15rem', fontWeight: 600, letterSpacing: '0.05em' }}>{f.name.toUpperCase()}</div>
+                              <div style={{ background: 'var(--bg-card)', borderRadius: '4px', height: '6px', overflow: 'hidden' }}>
+                                <div style={{ width: `${f.value}%`, height: '100%', background: f.color, borderRadius: '4px', transition: 'width 0.6s ease' }} />
+                              </div>
+                              <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: f.color, marginTop: '0.1rem' }}>{f.value}%</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Action */}
+                      <button
+                        className={`btn ${i === 0 ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+                        onClick={() => {
+                          alert(`✅ Match confirmed with ${m.receiver?.name || 'Receiver'}! They will pick up within ${Math.round(distKm * 3 + 10)} minutes.`);
+                          setMatches([]);
+                          setSelectedDonation(null);
+                        }}
+                        style={{ alignSelf: 'center', whiteSpace: 'nowrap' }}
+                      >
+                        <FaCheckCircle /> {i === 0 ? 'Confirm Match' : 'Select'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Footer */}
+            <div style={{
+              marginTop: '1rem', padding: '0.75rem', textAlign: 'center',
+              fontSize: '0.72rem', color: 'var(--text-dim)',
+              borderTop: '1px solid var(--border)',
+            }}>
+              ⚡ Matched by GradientBoostingRegressor · 7 features · Trained on 2000 samples · RMSE: 0.033
+            </div>
           </div>
         </div>
       )}
