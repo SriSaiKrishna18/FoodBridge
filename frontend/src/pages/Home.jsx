@@ -297,9 +297,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SDG ────────────────────────────────────────── */}
-      <section style={{ padding: '0 0 4rem' }}>
+      {/* ── Section Divider ── */}
+      <div className="section-divider">
+        <span className="section-divider-label"><span className="section-divider-dot" /> Tech Stack & Alignment</span>
+      </div>
+
+      {/* ── Tech Stack Showcase ─────────────────────────── */}
+      <section style={{ padding: '3rem 0 2rem' }}>
         <div className="container">
+          <div className="section-header text-center">
+            <h2 className="section-title">Built With Production-Grade Tech</h2>
+            <p className="section-subtitle" style={{ margin: '0 auto', maxWidth: '500px' }}>
+              Full-stack Python + React · PostgreSQL · 8 sklearn models · Real-time WebSocket
+            </p>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+            {[
+              { name: 'FastAPI', icon: '⚡', color: '#10B981' },
+              { name: 'React 18', icon: '⚛️', color: '#61DAFB' },
+              { name: 'PostgreSQL', icon: '🐘', color: '#4169E1' },
+              { name: 'scikit-learn', icon: '🧠', color: '#F7931E' },
+              { name: 'Leaflet', icon: '🗺️', color: '#199900' },
+              { name: 'WebSocket', icon: '🔌', color: '#6366f1' },
+              { name: 'JWT Auth', icon: '🔐', color: '#ef4444' },
+              { name: 'Chart.js', icon: '📊', color: '#FF6384' },
+            ].map((tech, i) => (
+              <div key={i} style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem',
+                padding: '1rem 1.25rem', borderRadius: '16px',
+                background: 'var(--bg-card)', border: '1px solid var(--border-card)',
+                transition: 'all 0.3s', cursor: 'default', minWidth: '100px',
+              }} className="card">
+                <span style={{ fontSize: '1.3rem' }}>{tech.icon}</span>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: tech.color, fontFamily: 'var(--font-mono)' }}>{tech.name}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* SDG badges */}
           <div className="sdg-row">
             <div className="sdg-badge sdg-2">🎯 SDG #2 — Zero Hunger</div>
             <div className="sdg-badge sdg-12">♻️ SDG #12 — Responsible Consumption</div>
@@ -308,13 +343,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ─────────────────────────────────────── */}
-      <footer className="footer">
-        <p>🌱 <strong>FoodBridge</strong> — AI-Powered Surplus Food Redistribution</p>
-        <p>Vashisht Hackathon 3.0 &nbsp;·&nbsp; EcoTech Track &nbsp;·&nbsp; IIITDM Kancheepuram &nbsp;·&nbsp; March 28–29, 2026</p>
-        <p style={{ marginTop: '0.4rem', fontSize: '0.72rem', opacity: 0.6 }}>
-          Data sources: FAO (68.7M tonnes/year India food waste) &nbsp;·&nbsp; IPCC (1 kg waste ≈ 2.5 kg CO₂)
-        </p>
+      {/* ── Enhanced Footer ────────────────────────────── */}
+      <footer className="footer" style={{ padding: '3rem 2rem 2rem' }}>
+        <div className="container" style={{ maxWidth: '1100px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2.5rem', textAlign: 'left', marginBottom: '2rem' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>🌱</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-1)' }}>FoodBridge</span>
+              </div>
+              <p style={{ fontSize: '0.78rem', lineHeight: 1.7, color: 'var(--text-4)' }}>
+                AI-powered platform connecting surplus food donors with communities in need. 8 ML models. Real-time matching. Zero food waste.
+              </p>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--g400)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Platform</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                <Link to="/donor" style={{ fontSize: '0.8rem', color: 'var(--text-3)' }}>Donor Dashboard</Link>
+                <Link to="/receiver" style={{ fontSize: '0.8rem', color: 'var(--text-3)' }}>Receiver Dashboard</Link>
+                <Link to="/admin" style={{ fontSize: '0.8rem', color: 'var(--text-3)' }}>Admin Panel</Link>
+                <Link to="/auth" style={{ fontSize: '0.8rem', color: 'var(--text-3)' }}>Login / Register</Link>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--g400)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>AI Models</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text-4)' }}>
+                <span>GradientBoosting Matcher</span>
+                <span>RandomForest Spoilage</span>
+                <span>K-Means Clustering</span>
+                <span>IsolationForest Anomaly</span>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--g400)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Hackathon</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text-4)' }}>
+                <span>Vashisht Hackathon 3.0</span>
+                <span>EcoTech Track</span>
+                <span>IIITDM Kancheepuram</span>
+                <span>March 28–29, 2026</span>
+              </div>
+            </div>
+          </div>
+          <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <p style={{ fontSize: '0.72rem', color: 'var(--text-4)' }}>
+              © 2026 FoodBridge · Data: FAO (68.7M tonnes/year) · IPCC (1 kg waste ≈ 2.5 kg CO₂)
+            </p>
+            <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.68rem' }}>
+              <span style={{ padding: '0.25rem 0.6rem', borderRadius: '100px', background: 'rgba(22,163,74,0.08)', border: '1px solid rgba(22,163,74,0.15)', color: 'var(--g300)', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>v2.0.0</span>
+              <span style={{ padding: '0.25rem 0.6rem', borderRadius: '100px', background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.15)', color: '#93c5fd', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>8 Models</span>
+              <span style={{ padding: '0.25rem 0.6rem', borderRadius: '100px', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.15)', color: '#fbbf24', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>PostgreSQL</span>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );
