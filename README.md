@@ -284,6 +284,7 @@ foodbridge/
 - 🗺️ **Optimized Route View** — TSP-optimized pickup path on Leaflet map
 - 🤖 **AI Match Explanation** — Transparent scoring with factor breakdown (distance, compatibility, reliability, capacity, urgency)
 - ⭐ **Rating System** — Star ratings + quick feedback + CO₂ certificate on delivery
+- 🎉 **Engaging UI (WOW Factors)** — React-Confetti on dispatch, beautiful slide-up Toasts for notifications, and CSS radar-pulsing map markers
 - 📍 **Expired Donations** — Separated into greyed-out "Missed Opportunities" section
 
 ### For Admins

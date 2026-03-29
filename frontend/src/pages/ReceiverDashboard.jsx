@@ -5,6 +5,9 @@ import CountdownTimer from '../components/CountdownTimer';
 import { AnomalyFlag } from '../components/AnomalyFlag';
 import api, { donationAPI, matchAPI, aiAPI } from '../api';
 import { FaMapMarkerAlt, FaRoute, FaClock, FaStar, FaCheckCircle, FaExclamationTriangle, FaLeaf, FaFilter, FaSearch, FaTruck, FaWalking, FaHandshake, FaTimes } from 'react-icons/fa';
+import { FaWhatsapp } from 'react-icons/fa';
+import Confetti from 'react-confetti';
+import toast from 'react-hot-toast';
 
 export default function ReceiverDashboard() {
   const user = (() => { try { return JSON.parse(localStorage.getItem('foodbridge_user')); } catch { return null; } })();
@@ -27,6 +30,7 @@ export default function ReceiverDashboard() {
   const [notifyCategories, setNotifyCategories] = useState(['cooked', 'bakery']);
   const [deliveryPartnerRequested, setDeliveryPartnerRequested] = useState({});
   const [showNotificationMock, setShowNotificationMock] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const [acceptLoading, setAcceptLoading] = useState(false);
 
@@ -154,7 +158,10 @@ export default function ReceiverDashboard() {
 
   const handleRequestDeliveryPartner = (donationId) => {
     setDeliveryPartnerRequested(prev => ({ ...prev, [donationId]: true }));
+    setShowConfetti(true);
+    toast.success('✅ Delivery Fleet Dispatched!');
     // WebSocket would notify delivery partners in production
+    setTimeout(() => setShowConfetti(false), 5000); // 5 seconds of confetti
   };
 
   const handleAcceptDonation = async (donation) => {
@@ -261,6 +268,7 @@ export default function ReceiverDashboard() {
 
   return (
     <div className="page container">
+      {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={500} />}
       <div className="page-header" style={{ position: 'relative', overflow: 'hidden' }}>
         <div style={{
           position: 'absolute', top: '-20px', right: '-30px',

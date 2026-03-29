@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
 import DonorDashboard from './pages/DonorDashboard';
 import ReceiverDashboard from './pages/ReceiverDashboard';
@@ -142,6 +143,14 @@ function AppContent() {
         </div>
       )}
       <ToastNotification message={toast} onClose={() => setToast(null)} />
+      <Toaster position="bottom-center" toastOptions={{
+        style: {
+          background: '#333',
+          color: '#fff',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        }
+      }} />
       <PageTransition>
         <Routes>
           <Route path="/"        element={<Home />} />

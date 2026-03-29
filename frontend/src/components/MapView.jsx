@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
 
 // Custom colored markers (teardrop shape)
 const createColorIcon = (color, size = 28) => new L.DivIcon({
-  className: 'custom-marker',
+  className: 'custom-marker pulse-marker',
   html: `<div style="
     width: ${size}px; height: ${size}px; border-radius: 50% 50% 50% 0;
     background: ${color}; transform: rotate(-45deg);

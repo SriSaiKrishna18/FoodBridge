@@ -7,6 +7,7 @@ import CountdownTimer from '../components/CountdownTimer';
 import { donationAPI, matchAPI, aiAPI, impactAPI } from '../api';
 import { FaListAlt, FaMapMarkedAlt, FaChartBar, FaLeaf, FaUsers, FaSeedling, FaBrain, FaCheckCircle, FaStar } from 'react-icons/fa';
 import { AnomalyFlag } from '../components/AnomalyFlag';
+import toast from 'react-hot-toast';
 
 const FALLBACK_DONATIONS = [
   { id: 1, title: 'Leftover biryani from wedding', food_category: 'cooked', quantity_kg: 15.5, status: 'delivered', donor: { name: 'T. Nagar Restaurant' }, created_at: '2026-03-28T03:26:03', spoilage_risk: 'medium' },
@@ -805,7 +806,7 @@ export default function DonorDashboard() {
                       <button
                         className={`btn ${i === 0 ? 'btn-primary' : 'btn-secondary'} btn-sm`}
                         onClick={() => {
-                          alert(`✅ Match confirmed with ${m.receiver?.name || 'Receiver'}! They will pick up within ${Math.round(distKm * 3 + 10)} minutes.`);
+                          toast.success(`✅ Match confirmed with ${m.receiver?.name || 'Receiver'}! They will pick up within ${Math.round(distKm * 3 + 10)} minutes.`, { duration: 6000 });
                           setMatches([]);
                           setSelectedDonation(null);
                         }}
