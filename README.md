@@ -1,3 +1,6 @@
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-food--bridge--cyan.vercel.app-brightgreen)](https://food-bridge-cyan.vercel.app)
+[![API Docs](https://img.shields.io/badge/API%20Docs-Swagger%20UI-blue)](https://foodbridge-api-m7ht.onrender.com/docs)
+
 # 🌱 FoodBridge — AI-Powered Real-Time Surplus Food Redistribution
 
 ### Vashisht Hackathon 3.0 | EcoTech Track | IIITDM Kancheepuram
@@ -8,8 +11,8 @@
 | | URL |
 |---|---|
 | 🌐 **Frontend** | [food-bridge-cyan.vercel.app](https://food-bridge-cyan.vercel.app) |
-| ⚡ **Backend API** | [foodbridge-api-xxx.onrender.com](https://foodbridge-api-xxx.onrender.com) |
-| 📖 **API Docs** | [/docs (Swagger)](https://foodbridge-api-xxx.onrender.com/docs) |
+| ⚡ **Backend API** | [foodbridge-api-m7ht.onrender.com](https://foodbridge-api-m7ht.onrender.com) |
+| 📖 **API Docs** | [/docs (Swagger)](https://foodbridge-api-m7ht.onrender.com/docs) |
 
 > **Quick Login:** `donor1@foodbridge.in` / `password123` · `receiver1@foodbridge.in` / `password123` · `admin@foodbridge.in` / `admin123`
 
@@ -34,10 +37,18 @@ FoodBridge is a **full-stack intelligent redistribution platform** powered by **
 | 7 | 📈 **Demand Forecaster** | GradientBoostingRegressor | **2,000 time-series** | R²: 0.81 |
 | 8 | 🤝 **Collaborative Filter** | Cosine Similarity | **2,000 acceptance events** | 50-receiver matrix |
 
+### 🧠 Composite Matching Formula
+
+```
+Final Match Score = 0.7 × GBR_score + 0.3 × CollabFilter_score
+```
+
+The GradientBoosting model produces a base match relevance score (distance, urgency, capacity), while the Collaborative Filter learns receiver food preferences from acceptance history. The weighted composite ensures both operational efficiency and personalized matching.
+
 ### What Makes This Different?
 - **Real trained ML models** — not just API calls or hardcoded rules. 8 models serialized as `.pkl` files with real feature importances, training metrics, and test accuracy
 - **AI is integral to every flow** — from NLP food listing → anomaly check → spoilage prediction → AI matching (GBR + collaborative filter) → route optimization → impact calculation
-- **Proactive intelligence** — demand forecasting predicts surplus before it’s listed, hotspot clustering helps NGOs pre-position, anomaly detection flags food safety risks
+- **Proactive intelligence** — demand forecasting predicts surplus before it's listed, hotspot clustering helps NGOs pre-position, anomaly detection flags food safety risks
 
 ---
 
