@@ -1,17 +1,40 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="FoodBridge — AI-powered surplus food redistribution platform. Reducing food waste, preventing CO₂ emissions, feeding families." />
+    <meta name="description" content="FoodBridge — AI-powered surplus food redistribution platform using 8 ML models. Reducing food waste, preventing CO₂ emissions, feeding families in real-time across Chennai." />
+    <meta name="keywords" content="food waste, AI, machine learning, food redistribution, food rescue, sustainability, SDG, zero hunger, climate action, hackathon" />
+    <meta name="author" content="FoodBridge Team — Vashisht Hackathon 3.0" />
+    <meta name="theme-color" content="#050c07" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FoodBridge — AI-Powered Food Rescue Platform" />
+    <meta property="og:description" content="8 trained ML models match surplus food to communities in need. Real-time matching, spoilage prediction, demand forecasting, and route optimization." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FoodBridge" />
+
     <title>FoodBridge — AI Food Redistribution</title>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Preconnect for map tiles -->
+    <link rel="preconnect" href="https://tile.openstreetmap.org" />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="padding: 2rem; text-align: center; font-family: sans-serif; background: #050c07; color: #d1fae5; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div>
+          <h1>🌱 FoodBridge</h1>
+          <p>Please enable JavaScript to run this AI-powered food redistribution platform.</p>
+        </div>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
