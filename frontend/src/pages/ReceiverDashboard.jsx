@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import MapView from '../components/MapView';
 import CountdownTimer from '../components/CountdownTimer';
+import { AnomalyFlag } from '../components/AnomalyFlag';
 import api, { donationAPI, matchAPI, aiAPI } from '../api';
 import { FaMapMarkerAlt, FaRoute, FaClock, FaStar, FaCheckCircle, FaExclamationTriangle, FaLeaf, FaFilter, FaSearch, FaTruck, FaWalking, FaHandshake, FaTimes } from 'react-icons/fa';
 
@@ -523,24 +524,7 @@ export default function ReceiverDashboard() {
                           </div>
                           {/* ── IsolationForest Anomaly Flag ── */}
                           {d.is_anomaly && (
-                            <div style={{
-                              background: 'rgba(239,68,68,0.08)',
-                              border: '1px solid rgba(239,68,68,0.25)',
-                              borderRadius: 'var(--r-xs, 6px)',
-                              padding: '0.35rem 0.75rem',
-                              fontSize: '0.75rem',
-                              color: '#fca5a5',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.4rem',
-                              marginTop: '0.5rem',
-                            }}>
-                              ⚠️ <strong>Anomaly Detected</strong> — AI flagged this listing for unusual patterns.
-                              Verify food condition before accepting.
-                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', marginLeft: 'auto', flexShrink: 0 }}>
-                                IsolationForest · Score: {d.anomaly_score?.toFixed ? d.anomaly_score.toFixed(2) : '0.85'}
-                              </span>
-                            </div>
+                            <AnomalyFlag score={d.anomaly_score} reason={d.anomaly_reason} />
                           )}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flexShrink: 0 }}>

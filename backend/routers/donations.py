@@ -111,7 +111,24 @@ def list_available(db: Session = Depends(get_db)):
 
 @router.get("/my/donations", response_model=List[DonationResponse])
 def my_donations(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    return db.query(Donation).filter(Donation.donor_id == current_user.id).order_by(Donation.created_at.desc()).all()
+    donations = db.query(Donation).filter(Donation.donor_id == current_user.id).order_by(Donation.created_at.desc()).all()
+    
+    # Enrich with anomaly detection
+    from backend.ml.anomaly_detector import detect_anomaly
+    from datetime import datetime
+    for d in donations:
+        hours_since = max(0, (datetime.utcnow() - d.prepared_at).total_seconds() / 3600) if d.prepared_at else 2
+        anomaly_result = detect_anomaly(
+            food_category=d.food_category or 'cooked',
+            hours_since_preparation=hours_since,
+            quantity_kg=d.quantity_kg,
+            hour_of_day=d.created_at.hour if d.created_at else 12,
+        )
+        d.is_anomaly = anomaly_result['is_anomaly']
+        d.anomaly_score = anomaly_result['anomaly_score']
+        d.anomaly_reason = anomaly_result['reason']
+        
+    return donations
 
 
 @router.get("/{donation_id}", response_model=DonationResponse)

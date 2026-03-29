@@ -356,6 +356,55 @@ def seed_database():
     db = SessionLocal()
 
     if db.query(User).count() > 0:
+        # DB already seeded. Make sure our 2 demo anomalies exist.
+        if db.query(Donation).filter(Donation.title == "Bulk rice surplus").count() == 0:
+            print("[SEED] Injecting demo anomalies into existing database...")
+            donors = db.query(User).filter(User.role == "donor").limit(2).all()
+            if len(donors) >= 2:
+                from datetime import datetime, timedelta
+                anomaly1 = Donation(
+                    donor_id=donors[0].id,
+                    title="Bulk rice surplus",
+                    description="We have a lot of rice left over.",
+                    food_category="cooked",
+                    quantity_kg=320.0,
+                    serves=1000,
+                    storage_type="room_temp",
+                    transport_mode="donor_delivers",
+                    prepared_at=datetime.utcnow() - timedelta(hours=72),
+                    expires_at=datetime.utcnow() - timedelta(hours=60),
+                    latitude=donors[0].latitude,
+                    longitude=donors[0].longitude,
+                    address=donors[0].address,
+                    status="available",
+                    spoilage_risk="high",
+                    spoilage_score=0.95,
+                    redistribution_window_hours=2.0,
+                    created_at=datetime.utcnow(),
+                )
+                anomaly2 = Donation(
+                    donor_id=donors[1].id,
+                    title="Late night catering extra",
+                    description="Just finished a late event.",
+                    food_category="cooked",
+                    quantity_kg=25.0,
+                    serves=80,
+                    storage_type="room_temp",
+                    transport_mode="receiver_picks_up",
+                    prepared_at=datetime.utcnow().replace(hour=2, minute=0, second=0, microsecond=0),
+                    expires_at=datetime.utcnow().replace(hour=2, minute=0, second=0, microsecond=0) + timedelta(hours=4),
+                    latitude=donors[1].latitude,
+                    longitude=donors[1].longitude,
+                    address=donors[1].address,
+                    status="available",
+                    spoilage_risk="medium",
+                    spoilage_score=0.6,
+                    redistribution_window_hours=4.0,
+                    created_at=datetime.utcnow().replace(hour=2, minute=0, second=0, microsecond=0),
+                )
+                db.add(anomaly1)
+                db.add(anomaly2)
+                db.commit()
         db.close()
         return
 
@@ -464,6 +513,52 @@ def seed_database():
             donation.created_at = prepared_at
             db.add(donation)
             all_donations.append(donation)
+
+    # Seed 2 explicit demo anomalies
+    anomaly1 = Donation(
+        donor_id=donors[0].id,
+        title="Bulk rice surplus",
+        description="We have a lot of rice left over.",
+        food_category="cooked",
+        quantity_kg=320.0,
+        serves=1000,
+        storage_type="room_temp",
+        transport_mode="donor_delivers",
+        prepared_at=datetime.utcnow() - timedelta(hours=72),
+        expires_at=datetime.utcnow() - timedelta(hours=60),
+        latitude=donors[0].latitude,
+        longitude=donors[0].longitude,
+        address=donors[0].address,
+        status="available",
+        spoilage_risk="high",
+        spoilage_score=0.95,
+        redistribution_window_hours=2.0,
+        created_at=datetime.utcnow(),
+    )
+    # the second anomaly happens at 2AM
+    anomaly2 = Donation(
+        donor_id=donors[1].id,
+        title="Late night catering extra",
+        description="Just finished a late event.",
+        food_category="cooked",
+        quantity_kg=25.0,
+        serves=80,
+        storage_type="room_temp",
+        transport_mode="receiver_picks_up",
+        prepared_at=datetime.utcnow().replace(hour=2, minute=0, second=0, microsecond=0),
+        expires_at=datetime.utcnow().replace(hour=2, minute=0, second=0, microsecond=0) + timedelta(hours=4),
+        latitude=donors[1].latitude,
+        longitude=donors[1].longitude,
+        address=donors[1].address,
+        status="available",
+        spoilage_risk="medium",
+        spoilage_score=0.6,
+        redistribution_window_hours=4.0,
+        created_at=datetime.utcnow().replace(hour=2, minute=0, second=0, microsecond=0),
+    )
+    db.add(anomaly1)
+    db.add(anomaly2)
+    all_donations.extend([anomaly1, anomaly2])
 
     db.commit()
     for d in all_donations:

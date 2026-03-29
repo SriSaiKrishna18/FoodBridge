@@ -6,6 +6,7 @@ import MapView from '../components/MapView';
 import CountdownTimer from '../components/CountdownTimer';
 import { donationAPI, matchAPI, aiAPI, impactAPI } from '../api';
 import { FaListAlt, FaMapMarkedAlt, FaChartBar, FaLeaf, FaUsers, FaSeedling, FaBrain, FaCheckCircle, FaStar } from 'react-icons/fa';
+import { AnomalyFlag } from '../components/AnomalyFlag';
 
 const FALLBACK_DONATIONS = [
   { id: 1, title: 'Leftover biryani from wedding', food_category: 'cooked', quantity_kg: 15.5, status: 'delivered', donor: { name: 'T. Nagar Restaurant' }, created_at: '2026-03-28T03:26:03', spoilage_risk: 'medium' },
@@ -289,6 +290,9 @@ export default function DonorDashboard() {
                         </span>
                       )}
                     </div>
+                    {d.is_anomaly && (
+                      <AnomalyFlag score={d.anomaly_score} reason={d.anomaly_reason} />
+                    )}
                     {d.status === 'matched' && (
                       <div style={{ marginTop: '0.5rem', fontSize: '0.82rem', color: '#fbbf24', fontWeight: 500 }}>
                         🤝 Matched to nearby receiver · <span style={{ fontFamily: 'var(--font-mono)' }}>91% confidence</span>

@@ -80,6 +80,9 @@ class DonationResponse(BaseModel):
     transport_mode: Optional[str] = None
     created_at: Optional[datetime] = None
     donor: Optional[UserResponse] = None
+    is_anomaly: Optional[bool] = None
+    anomaly_score: Optional[float] = None
+    anomaly_reason: Optional[str] = None
 
     class Config:
         from_attributes = True
