@@ -32,7 +32,7 @@ function PageTransition({ children }) {
   return <div className={stage}>{displayChildren}</div>;
 }
 
-function Navbar({ user, onLogout, wsConnected }) {
+function Navbar({ user, onLogout, wsConnected, theme, toggleTheme }) {
   const location = useLocation();
   const isActive = (path) => location.pathname === path ? 'active' : '';
 
@@ -54,6 +54,10 @@ function Navbar({ user, onLogout, wsConnected }) {
 
       {/* Right actions */}
       <div className="navbar-actions">
+        <button onClick={toggleTheme} className="btn btn-ghost" style={{ padding: '0.4rem', fontSize: '1.2rem', borderRadius: '50%' }} aria-label="Toggle theme">
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+
         {wsConnected && (
           <div className="live-dot">
             <span />
@@ -88,9 +92,14 @@ function AppContent() {
   const [serverWarm, setServerWarm] = useState(false);
   const [showWarmingMessage, setShowWarmingMessage] = useState(false);
 
+  const [theme, setTheme] = useState(() => localStorage.getItem('foodbridge_theme') || 'dark');
+
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('foodbridge_theme', 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('foodbridge_theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
     // Ping backend — show warming message if slow
     const timer = setTimeout(() => { if (!serverWarm) setShowWarmingMessage(true); }, 5000);
     fetch('https://foodbridge-api-m7ht.onrender.com/api/impact/')
@@ -117,7 +126,7 @@ function AppContent() {
 
   return (
     <>
-      <Navbar user={user} onLogout={handleLogout} wsConnected={connected} />
+      <Navbar user={user} onLogout={handleLogout} wsConnected={connected} theme={theme} toggleTheme={() => setTheme(prev => prev==='dark'?'light':'dark')} />
       {showWarmingMessage && (
         <div style={{
           background: 'rgba(217,119,6,0.1)',
