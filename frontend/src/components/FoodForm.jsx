@@ -68,21 +68,24 @@ export default function FoodForm({ onSubmit }) {
       const qty = nlpRes.data.estimated_quantity_kg || 5;
       const autoTitle = rawText.substring(0, 60) + (rawText.length > 60 ? '...' : '');
 
+      const spoilRes = await aiAPI.spoilage({
+        food_category: category,
+        storage_type: nlpRes.data.recommended_storage || 'room_temp',
+        hours_since_preparation: 1,
+        ambient_temperature: 32,
+      });
+
       setForm(prev => ({
         ...prev,
         title: autoTitle,
         description: rawText,
         food_category: category,
         quantity_kg: qty,
-        serves: Math.max(1, Math.round(qty * 3)),
+        storage_type: nlpRes.data.recommended_storage || prev.storage_type,
+        serves: nlpRes.data.estimated_serves || Math.max(1, Math.round(qty * 3)),
+        // The donor just needs to confirm these, not re-enter them
       }));
 
-      const spoilRes = await aiAPI.spoilage({
-        food_category: category,
-        storage_type: 'room_temp',
-        hours_since_preparation: 1,
-        ambient_temperature: 32,
-      });
       setSpoilageResult(spoilRes.data);
       setShowForm(true);
     } catch (err) {

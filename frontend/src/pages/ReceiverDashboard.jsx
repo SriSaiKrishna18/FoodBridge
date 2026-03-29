@@ -8,6 +8,8 @@ import { FaMapMarkerAlt, FaRoute, FaClock, FaStar, FaCheckCircle, FaExclamationT
 export default function ReceiverDashboard() {
   const user = (() => { try { return JSON.parse(localStorage.getItem('foodbridge_user')); } catch { return null; } })();
   const [donations, setDonations] = useState([]);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [dataError, setDataError] = useState(false);
   const [tab, setTab] = useState('browse');
   const [selectedDonation, setSelectedDonation] = useState(null);
   const [matches, setMatches] = useState([]);
@@ -40,14 +42,21 @@ export default function ReceiverDashboard() {
   const receiverLocation = { lat: 13.0418, lng: 80.2341 };
 
   const loadDonations = useCallback(() => {
+    setDataLoading(true);
+    setDataError(false);
     // Use enriched endpoint to get anomaly flags
     donationAPI.listEnriched().then(res => {
       setDonations(res.data);
+      setDataLoading(false);
     }).catch(() => {
       // Fallback to regular endpoint if enriched fails
       donationAPI.listAvailable().then(res => {
         setDonations(res.data);
-      }).catch(() => {});
+        setDataLoading(false);
+      }).catch(() => {
+        setDataLoading(false);
+        setDataError(true);
+      });
     });
   }, []);
 
@@ -276,6 +285,34 @@ export default function ReceiverDashboard() {
       {/* Browse Tab — Filters + Spoilage-sorted cards */}
       {tab === 'browse' && (
         <div>
+          {/* Loading skeleton */}
+          {dataLoading && (
+            <div style={{ padding: '1rem 0' }}>
+              {[1,2,3].map(i => (
+                <div key={i} className="skeleton-card">
+                  <div className="skeleton-line w60" />
+                  <div className="skeleton-line w80" />
+                  <div className="skeleton-line w40" />
+                </div>
+              ))}
+              <div style={{ textAlign: 'center', padding: '1rem', fontSize: '0.82rem', color: 'var(--text-3)' }}>
+                Loading available donations...
+              </div>
+            </div>
+          )}
+          {/* Error state */}
+          {dataError && !dataLoading && (
+            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-3)' }}>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⚠️</div>
+              <div style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Could not load donations</div>
+              <div style={{ fontSize: '0.85rem', marginBottom: '1rem' }}>
+                The server may be starting up — this takes about 30 seconds on first load.
+              </div>
+              <button className="btn btn-secondary btn-sm" onClick={loadDonations}>Try Again</button>
+            </div>
+          )}
+          {/* Normal content */}
+          {!dataLoading && !dataError && (<>
           {/* Search & Filter Bar */}
           <div className="card" style={{ padding: '0.75rem 1rem', marginBottom: '1rem', borderColor: 'var(--border-hover)' }}>
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -619,6 +656,7 @@ export default function ReceiverDashboard() {
               )}
             </>
           )}
+          </>)}
         </div>
       )}
 

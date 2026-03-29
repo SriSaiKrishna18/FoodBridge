@@ -20,6 +20,8 @@ const FALLBACK_DONATIONS = [
 export default function DonorDashboard() {
   const [tab, setTab] = useState('list');
   const [donations, setDonations] = useState([]);
+  const [donationsLoading, setDonationsLoading] = useState(true);
+  const [donationsError, setDonationsError] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState(null);
   const [matches, setMatches] = useState([]);
   const [spoilageResult, setSpoilageResult] = useState(null);
@@ -35,18 +37,21 @@ export default function DonorDashboard() {
   }, []);
 
   const loadDonations = async () => {
+    setDonationsLoading(true);
+    setDonationsError(false);
     try {
       const res = await donationAPI.list();
       const data = res.data;
       if (data && data.length > 0) {
         setDonations(data);
       } else {
-        // Use fallback data so stat cards are never empty
         setDonations(FALLBACK_DONATIONS);
       }
     } catch (err) {
       console.error(err);
       setDonations(FALLBACK_DONATIONS);
+    } finally {
+      setDonationsLoading(false);
     }
   };
 
@@ -54,7 +59,7 @@ export default function DonorDashboard() {
     await donationAPI.create(formData);
     loadDonations();
     setSubmitSuccess(formData);
-    setTimeout(() => setSubmitSuccess(null), 4000);
+    setTimeout(() => setSubmitSuccess(null), 8000);
     setTab('donations');
   };
 
@@ -185,29 +190,37 @@ export default function DonorDashboard() {
       {/* ── List Food Tab ── */}
       {tab === 'list' && <FoodForm onSubmit={handleSubmit} />}
 
-      {/* Success Toast */}
-      {submitSuccess && (
-        <div className="animate-in" style={{
-          position: 'fixed', bottom: '2rem', right: '2rem',
-          background: 'linear-gradient(135deg, #15803d, #16a34a)',
-          color: 'white', padding: '1rem 1.5rem', borderRadius: 'var(--r-md)',
-          boxShadow: '0 8px 32px rgba(22,163,74,0.4)',
-          zIndex: 9999, maxWidth: '380px',
-          display: 'flex', alignItems: 'center', gap: '0.75rem',
-        }}>
-          <FaCheckCircle style={{ fontSize: '1.5rem', flexShrink: 0 }} />
-          <div>
-            <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>Food Listed Successfully!</div>
-            <div style={{ fontSize: '0.78rem', opacity: 0.9, marginTop: '0.15rem' }}>
-              {submitSuccess.quantity_kg} kg · {submitSuccess.food_category} · AI matching in progress
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* ── My Donations Tab ── */}
       {tab === 'donations' && (
         <div>
+          {/* Submission Success Inline Feedback */}
+          {submitSuccess && (
+            <div className="animate-in" style={{
+              background: 'linear-gradient(135deg, rgba(22,163,74,0.12), rgba(22,163,74,0.06))',
+              border: '1px solid rgba(22,163,74,0.3)',
+              borderRadius: 'var(--r-md)',
+              padding: '1.25rem',
+              textAlign: 'center',
+              marginBottom: '1.5rem',
+            }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>✅</div>
+              <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.25rem' }}>
+                Food Listed Successfully!
+              </div>
+              <div style={{ color: 'var(--text-3)', fontSize: '0.88rem' }}>
+                AI matching is running. You'll be notified when a receiver accepts.
+              </div>
+              <div style={{
+                marginTop: '0.75rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
+                color: 'var(--g400)',
+              }}>
+                ⚡ Expected match time: ~17 minutes
+              </div>
+            </div>
+          )}
+
           {/* Quick stats bar */}
           <div className="grid grid-4" style={{ gap: '0.75rem', marginBottom: '1.5rem' }}>
             <div className="card" style={{ padding: '1rem', textAlign: 'center' }}>
