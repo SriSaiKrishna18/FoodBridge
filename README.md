@@ -1,4 +1,5 @@
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-food--bridge--cyan.vercel.app-brightgreen)](https://food-bridge-cyan.vercel.app)
+[![Demo Video](https://img.shields.io/badge/Demo%20Video-Watch%20Now-red)](https://drive.google.com/file/d/1h7Obj44NgIhm3BQtgQDqQIMLjvfOHllO/view?usp=sharing)
 [![API Docs](https://img.shields.io/badge/API%20Docs-Swagger%20UI-blue)](https://foodbridge-api-m7ht.onrender.com/docs)
 
 # 🌱 FoodBridge — AI-Powered Real-Time Surplus Food Redistribution
@@ -7,9 +8,10 @@
 
 > **FoodBridge** uses 8 trained ML models to match surplus food with communities in need — optimizing routes, predicting spoilage, detecting anomalies, forecasting demand, clustering hotspots, and learning receiver preferences in real time.
 
-### 🔗 Live Demo
+### 🔗 Important Links
 | | URL |
 |---|---|
+| 🎬 **Demo Video** | [Watch the Full 5-Min Demo](https://drive.google.com/file/d/1h7Obj44NgIhm3BQtgQDqQIMLjvfOHllO/view?usp=sharing) |
 | 🌐 **Frontend** | [food-bridge-cyan.vercel.app](https://food-bridge-cyan.vercel.app) |
 | ⚡ **Backend API** | [foodbridge-api-m7ht.onrender.com](https://foodbridge-api-m7ht.onrender.com) |
 | 📖 **API Docs** | [/docs (Swagger)](https://foodbridge-api-m7ht.onrender.com/docs) |
