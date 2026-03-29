@@ -156,6 +156,25 @@ a { text-decoration: none; color: var(--g400); transition: color 0.2s; }
 a:hover { color: var(--g300); }
 img { max-width: 100%; display: block; }
 
+/* ── Accessibility ───────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--g400);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* Skip to content (screen readers) */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
 /* ── Typography ───────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
