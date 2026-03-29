@@ -5,6 +5,7 @@ import DonorDashboard from './pages/DonorDashboard';
 import ReceiverDashboard from './pages/ReceiverDashboard';
 import AdminPanel from './pages/AdminPanel';
 import Auth from './pages/Auth';
+import NotFound from './pages/NotFound';
 import ToastNotification from './components/ToastNotification';
 import NotificationBell from './components/NotificationBell';
 import { useWebSocket } from './hooks/useWebSocket';
@@ -126,7 +127,7 @@ function AppContent() {
           <Route path="/receiver"element={<ReceiverDashboard />} />
           <Route path="/admin"   element={<AdminPanel />} />
           <Route path="/auth"    element={<Auth onLogin={handleLogin} />} />
-          <Route path="*"        element={<Navigate to="/" />} />
+          <Route path="*"        element={<NotFound />} />
         </Routes>
       </PageTransition>
     </>
