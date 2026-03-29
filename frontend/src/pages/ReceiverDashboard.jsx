@@ -244,9 +244,19 @@ export default function ReceiverDashboard() {
 
   return (
     <div className="page container">
-      <div className="page-header">
-        <h1 className="page-title">🤝 Receiver Dashboard</h1>
-        <p className="page-subtitle">Browse available donations · Filter by category, risk & transport · Accept to see optimized route</p>
+      <div className="page-header" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', top: '-20px', right: '-30px',
+          width: '200px', height: '200px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)',
+          filter: 'blur(30px)', pointerEvents: 'none',
+        }} />
+        <h1 className="page-title" style={{ position: 'relative', zIndex: 1 }}>
+          🤝 <span className="hero-gradient-animated">Receiver</span> Dashboard
+        </h1>
+        <p className="page-subtitle" style={{ position: 'relative', zIndex: 1 }}>
+          Browse available donations · Filter by category, risk & transport · Accept to see optimized route
+        </p>
       </div>
 
       <div className="tabs">

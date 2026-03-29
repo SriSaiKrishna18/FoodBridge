@@ -116,9 +116,20 @@ export default function DonorDashboard() {
 
   return (
     <div className="container page">
-      <div className="page-header">
-        <h1 className="page-title">🍱 Donor Dashboard</h1>
-        <p className="page-subtitle">List surplus food · Track your donations · View AI-powered insights</p>
+      <div className="page-header" style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Ambient glow behind header */}
+        <div style={{
+          position: 'absolute', top: '-20px', left: '-30px',
+          width: '200px', height: '200px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)',
+          filter: 'blur(30px)', pointerEvents: 'none',
+        }} />
+        <h1 className="page-title" style={{ position: 'relative', zIndex: 1 }}>
+          🍱 <span className="hero-gradient-animated">Donor</span> Dashboard
+        </h1>
+        <p className="page-subtitle" style={{ position: 'relative', zIndex: 1 }}>
+          List surplus food · Track your donations · View AI-powered insights
+        </p>
       </div>
 
       {/* AI Forecast Teaser Banner */}
