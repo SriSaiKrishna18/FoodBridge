@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import FoodForm from '../components/FoodForm';
 import MatchCard from '../components/MatchCard';
 import MapView from '../components/MapView';
@@ -18,6 +19,7 @@ const FALLBACK_DONATIONS = [
 ];
 
 export default function DonorDashboard() {
+  const user = (() => { try { return JSON.parse(localStorage.getItem('foodbridge_user')); } catch { return null; } })();
   const [tab, setTab] = useState('list');
   const [donations, setDonations] = useState([]);
   const [donationsLoading, setDonationsLoading] = useState(true);
@@ -188,7 +190,22 @@ export default function DonorDashboard() {
       </div>
 
       {/* ── List Food Tab ── */}
-      {tab === 'list' && <FoodForm onSubmit={handleSubmit} />}
+      {tab === 'list' && (
+        user ? <FoodForm onSubmit={handleSubmit} /> : (
+          <div className="card animate-in" style={{ textAlign:'center', padding:'3rem', margin:'0 auto 1.5rem', maxWidth: '600px' }}>
+            <div style={{ fontSize:'3rem', marginBottom:'1rem' }}>🍱</div>
+            <h2 style={{ fontFamily:'var(--font-display)', marginBottom:'0.5rem' }}>
+              Have surplus food?
+            </h2>
+            <p style={{ color:'var(--text-3)', marginBottom:'1.5rem', lineHeight: '1.6' }}>
+              Register as a donor — it takes 30 seconds. List food, get matched instantly with verified NGOs and shelters.
+            </p>
+            <Link to="/auth" className="btn btn-primary btn-lg" style={{ display: 'inline-flex' }}>
+              Register Free &nbsp;<span style={{ fontSize: '1.1rem' }}>→</span>
+            </Link>
+          </div>
+        )
+      )}
 
       {/* ── My Donations Tab ── */}
       {tab === 'donations' && (
