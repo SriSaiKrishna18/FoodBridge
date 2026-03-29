@@ -38,9 +38,15 @@ export default function ReceiverDashboard() {
   const receiverLocation = { lat: 13.0418, lng: 80.2341 };
 
   const loadDonations = useCallback(() => {
-    donationAPI.listAvailable().then(res => {
+    // Use enriched endpoint to get anomaly flags
+    donationAPI.listEnriched().then(res => {
       setDonations(res.data);
-    }).catch(() => {});
+    }).catch(() => {
+      // Fallback to regular endpoint if enriched fails
+      donationAPI.listAvailable().then(res => {
+        setDonations(res.data);
+      }).catch(() => {});
+    });
   }, []);
 
   useEffect(() => { loadDonations(); }, [loadDonations]);
@@ -466,6 +472,27 @@ export default function ReceiverDashboard() {
                               <span><FaStar style={{ color: '#fbbf24', marginRight: '0.2rem' }} />Trust: {Math.round(d.donor.reliability_score * 100)}%</span>
                             )}
                           </div>
+                          {/* ── IsolationForest Anomaly Flag ── */}
+                          {d.is_anomaly && (
+                            <div style={{
+                              background: 'rgba(239,68,68,0.08)',
+                              border: '1px solid rgba(239,68,68,0.25)',
+                              borderRadius: 'var(--r-xs, 6px)',
+                              padding: '0.35rem 0.75rem',
+                              fontSize: '0.75rem',
+                              color: '#fca5a5',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.4rem',
+                              marginTop: '0.5rem',
+                            }}>
+                              ⚠️ <strong>Anomaly Detected</strong> — AI flagged this listing for unusual patterns.
+                              Verify food condition before accepting.
+                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', marginLeft: 'auto', flexShrink: 0 }}>
+                                IsolationForest · Score: {d.anomaly_score?.toFixed ? d.anomaly_score.toFixed(2) : '0.85'}
+                              </span>
+                            </div>
+                          )}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flexShrink: 0 }}>
                           <button

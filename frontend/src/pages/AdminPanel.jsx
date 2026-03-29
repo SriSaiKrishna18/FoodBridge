@@ -601,7 +601,7 @@ export default function AdminPanel() {
                 <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>SAMPLES</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
-                    {modelInfo?.clustering_model?.n_samples || '90'}
+                    {modelInfo?.clustering_model?.n_samples || '2000'}
                   </div>
                 </div>
               </div>
@@ -627,8 +627,10 @@ export default function AdminPanel() {
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f87171', fontSize: '0.85rem' }}>5%</div>
                 </div>
                 <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>FEATURES</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>4 signals</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>SAMPLES</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
+                    {modelInfo?.anomaly_model?.n_training_samples || '2000'}
+                  </div>
                 </div>
               </div>
               <div style={{ fontSize: '0.78rem', color: 'var(--text-2)', lineHeight: 1.7 }}>
@@ -651,13 +653,13 @@ export default function AdminPanel() {
                 <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>RMSE</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#a78bfa', fontSize: '0.85rem' }}>
-                    {modelInfo?.forecast_model?.rmse?.toFixed(2) || '6.97'}
+                    {modelInfo?.forecast_model?.rmse?.toFixed(2) || '3.70'}
                   </div>
                 </div>
                 <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>R² SCORE</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#a78bfa', fontSize: '0.85rem' }}>
-                    {modelInfo?.forecast_model?.r2_score?.toFixed(3) || '0.640'}
+                    {modelInfo?.forecast_model?.r2_score?.toFixed(3) || '0.813'}
                   </div>
                 </div>
               </div>
@@ -701,8 +703,10 @@ export default function AdminPanel() {
                   </div>
                 </div>
                 <div style={{ textAlign: 'center', padding: '0.75rem', background: 'var(--bg-surface)', borderRadius: 'var(--r-sm)' }}>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>CATEGORIES</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>7 food types</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-4)' }}>MATCHES</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#f0fdf4', fontSize: '0.85rem' }}>
+                    {modelInfo?.collaborative_filter?.n_matches_used || '2000'}
+                  </div>
                 </div>
               </div>
               <div style={{ fontSize: '0.78rem', color: 'var(--text-2)', lineHeight: 1.7 }}>

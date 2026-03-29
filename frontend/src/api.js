@@ -28,6 +28,7 @@ export const donationAPI = {
   create: (data) => api.post('/api/donations/', data),
   list: (params) => api.get('/api/donations/', { params }),
   listAvailable: () => api.get('/api/donations/available'),
+  listEnriched: () => api.get('/api/donations/enriched'),
   get: (id) => api.get(`/api/donations/${id}`),
   updateStatus: (id, status) => api.put(`/api/donations/${id}/status?status=${status}`),
   myDonations: () => api.get('/api/donations/my/donations'),

@@ -246,6 +246,49 @@ def preference_endpoint(receiver_id: int, food_category: str = "cooked"):
     }
 
 
+# ── Enriched Donations (with anomaly data) ────────────────
+@app.get("/api/donations/enriched", tags=["Donations"])
+def enriched_donations(db: Session = Depends(get_db)):
+    """Return available donations enriched with anomaly detection results."""
+    from backend.ml.anomaly_detector import detect_anomaly
+    donations = db.query(Donation).filter(Donation.status == "available").order_by(Donation.created_at.desc()).limit(50).all()
+    results = []
+    for d in donations:
+        hours_since = max(0, (datetime.utcnow() - d.prepared_at).total_seconds() / 3600) if d.prepared_at else 2
+        anomaly_result = detect_anomaly(
+            food_category=d.food_category or 'cooked',
+            hours_since_preparation=hours_since,
+            quantity_kg=d.quantity_kg,
+            hour_of_day=d.created_at.hour if d.created_at else 12,
+        )
+        results.append({
+            'id': d.id,
+            'donor_id': d.donor_id,
+            'title': d.title,
+            'description': d.description,
+            'food_category': d.food_category,
+            'quantity_kg': d.quantity_kg,
+            'serves': d.serves,
+            'storage_type': d.storage_type,
+            'prepared_at': d.prepared_at.isoformat() if d.prepared_at else None,
+            'expires_at': d.expires_at.isoformat() if d.expires_at else None,
+            'latitude': d.latitude,
+            'longitude': d.longitude,
+            'address': d.address,
+            'status': d.status,
+            'spoilage_risk': d.spoilage_risk,
+            'spoilage_score': d.spoilage_score,
+            'redistribution_window_hours': d.redistribution_window_hours,
+            'transport_mode': d.transport_mode,
+            'created_at': d.created_at.isoformat() if d.created_at else None,
+            'is_anomaly': anomaly_result['is_anomaly'],
+            'anomaly_score': anomaly_result['anomaly_score'],
+            'anomaly_reason': anomaly_result['reason'],
+            'anomaly_model': anomaly_result['model_used'],
+        })
+    return results
+
+
 # ── ML Model Info (for demo) ──────────────────────────────
 @app.get("/api/models", tags=["AI - Models"])
 def model_info():
@@ -301,6 +344,9 @@ EXTRA_DONATIONS = [
     {"title": "Milk booth — unsold evening stock",            "desc": "Fresh toned milk packets",              "cat": "dairy",   "qty": 20.0, "serves": 40},
     {"title": "Chettinad restaurant — weekend surplus",       "desc": "Chicken biryani, mutton curry, appam",  "cat": "cooked",  "qty": 30.0, "serves": 90},
     {"title": "Organic farm — harvest surplus tomatoes",      "desc": "Fresh organic tomatoes, 3 days shelf life","cat": "fruits_vegetables", "qty": 18.0, "serves": 40},
+    # ── Anomalous donations (for IsolationForest demo) ──
+    {"title": "⚠️ Bulk warehouse clearance — 200kg mixed",    "desc": "Unknown origin, multiple food types, very large quantity", "cat": "cooked",  "qty": 200.0, "serves": 500},
+    {"title": "⚠️ Late-night mystery listing — old curry",     "desc": "Curry from 2 days ago, listed at 3AM",  "cat": "cooked",  "qty": 45.0, "serves": 120},
 ]
 
 
