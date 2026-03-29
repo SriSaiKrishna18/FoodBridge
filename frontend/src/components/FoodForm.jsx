@@ -128,41 +128,42 @@ export default function FoodForm({ onSubmit }) {
             value={rawText}
             onChange={(e) => setRawText(e.target.value)}
             placeholder='e.g., "We have 20 rotis and 5 kg leftover dal from a wedding reception, plus some gulab jamun"'
-            style={{ fontSize: '1rem', lineHeight: '1.6', marginBottom: '1rem', paddingRight: '3.5rem' }}
+            style={{ fontSize: '1rem', lineHeight: '1.6', marginBottom: '1rem' }}
           />
-          {/* Voice button */}
-          {speechSupported && (
+
+          {/* Prominent Voice AI Button */}
+          {speechSupported ? (
             <button
               type="button"
               onClick={listening ? stopListening : startListening}
               style={{
-                position: 'absolute', top: '0.6rem', right: '0.6rem',
-                width: '40px', height: '40px', borderRadius: '50%',
-                border: 'none', cursor: 'pointer',
-                background: listening ? '#ef4444' : 'var(--accent-primary)',
-                color: 'white', fontSize: '1rem',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                animation: listening ? 'pulse-glow 1s infinite' : 'none',
-                boxShadow: listening ? '0 0 20px rgba(239,68,68,0.5)' : '0 2px 8px rgba(22,163,74,0.3)',
-                transition: 'all 0.3s',
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '8px',
+                border: listening ? '2px solid transparent' : '1px solid var(--border-hover)',
+                background: listening ? 'linear-gradient(45deg, #ef4444, #dc2626)' : 'var(--bg-surface)',
+                color: listening ? 'white' : 'var(--text-1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                fontWeight: 600,
+                marginBottom: '1rem',
+                cursor: 'pointer',
+                animation: listening ? 'pulse-glow 1.5s infinite' : 'none',
+                boxShadow: listening ? '0 0 15px rgba(239,68,68,0.4)' : 'none',
+                transition: 'all 0.3s'
               }}
-              title={listening ? 'Stop listening' : 'Start voice input'}
             >
-              {listening ? <FaStop /> : <FaMicrophone />}
+              {listening ? <FaStop /> : <FaMicrophone style={{ color: 'var(--green-400)' }} />}
+              {listening ? 'Listening... Tap to Stop' : 'Tap to Speak (Voice AI)'}
             </button>
+          ) : (
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+              💡 Voice input available in Chrome. Use text input in other browsers.
+            </div>
           )}
         </div>
-        {listening && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', fontSize: '0.82rem', color: '#ef4444', fontWeight: 600 }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444', animation: 'pulse-glow 1s infinite' }}></span>
-            Listening... Speak now
-          </div>
-        )}
-        {!speechSupported && (
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
-            💡 Voice input available in Chrome. Use text input in other browsers.
-          </div>
-        )}
         <button
           className="btn btn-primary btn-lg"
           onClick={handleAnalyze}

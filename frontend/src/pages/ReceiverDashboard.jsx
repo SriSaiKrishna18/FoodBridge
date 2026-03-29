@@ -26,6 +26,7 @@ export default function ReceiverDashboard() {
   const [notifyMe, setNotifyMe] = useState(false);
   const [notifyCategories, setNotifyCategories] = useState(['cooked', 'bakery']);
   const [deliveryPartnerRequested, setDeliveryPartnerRequested] = useState({});
+  const [showNotificationMock, setShowNotificationMock] = useState(false);
 
   const [acceptLoading, setAcceptLoading] = useState(false);
 
@@ -195,6 +196,10 @@ export default function ReceiverDashboard() {
     setAcceptLoading(false);
     setLoading(false);
     setTab('route');
+    
+    // Trigger the mock WhatsApp/Email notification
+    setShowNotificationMock(true);
+    setTimeout(() => setShowNotificationMock(false), 6000);
   };
 
   const handleMarkDelivered = (donation) => {
@@ -739,10 +744,20 @@ export default function ReceiverDashboard() {
                   <span>🍽️ Serves {selectedDonation.serves}</span>
                   <span>⏱️ {selectedDonation.redistribution_window_hours}h window</span>
                 </div>
-                <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+                <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                   <button className="btn btn-primary" onClick={() => handleMarkDelivered(selectedDonation)}>
                     ✅ Mark as Delivered
                   </button>
+                  {selectedDonation.transport_mode !== 'donor_delivers' && !deliveryPartnerRequested[selectedDonation.id] && (
+                    <button className="btn" style={{ background: '#db2777', color: 'white', border: '1px solid #be185d' }} onClick={() => handleRequestDeliveryPartner(selectedDonation.id)}>
+                      🛵 Request 3rd-Party Fleet (Dunzo/Porter)
+                    </button>
+                  )}
+                  {deliveryPartnerRequested[selectedDonation.id] && (
+                    <div style={{ padding: '0.5rem 1rem', background: 'rgba(219,39,119,0.1)', color: '#db2777', borderRadius: '8px', border: '1px solid currentColor', fontWeight: 'bold' }}>
+                      🟢 Partner Dispatched! Driver ETA: {Math.round(Math.random() * 8 + 4)} mins.
+                    </div>
+                  )}
                 </div>
               </div>
             </>
@@ -865,6 +880,30 @@ export default function ReceiverDashboard() {
                 </div>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* WhatsApp / Email Simulation Modal (Hackathon WOW factor) */}
+      {showNotificationMock && (
+        <div style={{
+          position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999,
+          background: 'rgba(20, 20, 20, 0.95)', backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(74,222,128,0.4)', borderRadius: '12px',
+          padding: '1.2rem', width: '320px',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(74,222,128,0.2)',
+          animation: 'slide-up 0.5s ease-out'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+            <FaWhatsapp style={{ color: '#25D366', fontSize: '1.2rem' }} />
+            <h4 style={{ margin: 0, color: 'white', fontSize: '0.9rem', fontWeight: 600 }}>WhatsApp Webhook Fired</h4>
+          </div>
+          <p style={{ margin: 0, fontSize: '0.8rem', color: '#cbd5e1', lineHeight: '1.5' }}>
+            <strong>To:</strong> Donor ({selectedDonation?.donor?.name || 'NGO'})<br />
+            <strong>Message:</strong> 🎉 Great news! Your donation "{selectedDonation?.title}" has been accepted by {user?.name || 'an NGO'}! They are on their way to pick it up.
+          </p>
+          <div style={{ marginTop: '0.8rem', fontSize: '0.7rem', color: '#64748b', textAlign: 'right' }}>
+            *(Simulated API call for Demo)*
           </div>
         </div>
       )}

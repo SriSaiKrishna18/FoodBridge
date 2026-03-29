@@ -160,6 +160,30 @@ export default function DonorDashboard() {
         </p>
       </div>
 
+      {/* Gamification / Impact Leaderboard */}
+      {user && (
+        <div className="animate-in" style={{
+          background: 'linear-gradient(135deg, rgba(74,222,128,0.1), rgba(16,185,129,0.05))',
+          border: '1px solid rgba(74,222,128,0.3)', borderRadius: 'var(--r-md)',
+          padding: '1.25rem', marginBottom: '1rem',
+          display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap'
+        }}>
+          <div style={{ fontSize: '2.5rem', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.2))' }}>🏆</div>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#4ade80', fontWeight: 700 }}>
+              You are Ranked #3 in Chennai this week!
+            </h3>
+            <p style={{ margin: '0.25rem 0 0', fontSize: '0.9rem', color: 'var(--text-2)' }}>
+              Your food rescue efforts have saved <strong style={{ color: 'white' }}>{totalCO2} kg of CO₂ emissions</strong> 
+              {' '}(equivalent to planting {Math.max(1, Math.round(totalCO2 / 10))} trees 🌳). Keep it up!
+            </p>
+          </div>
+          <button className="btn" style={{ background: 'rgba(74,222,128,0.2)', color: '#4ade80', border: '1px solid rgba(74,222,128,0.5)' }}>
+            View Leaderboard
+          </button>
+        </div>
+      )}
+
       {/* AI Forecast Teaser Banner */}
       <div className="animate-in" style={{
         background: 'linear-gradient(135deg, rgba(22,163,74,0.08), rgba(245,158,11,0.05))',
