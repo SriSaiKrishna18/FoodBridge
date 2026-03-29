@@ -101,10 +101,12 @@ function AppContent() {
 
   useEffect(() => {
     // Ping backend — show warming message if slow
-    const timer = setTimeout(() => { if (!serverWarm) setShowWarmingMessage(true); }, 5000);
-    fetch('https://foodbridge-api-m7ht.onrender.com/api/impact/')
-      .then(() => { setServerWarm(true); setShowWarmingMessage(false); })
-      .catch(() => {});
+    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    let resolved = false;
+    const timer = setTimeout(() => { if (!resolved) setShowWarmingMessage(true); }, 5000);
+    fetch(`${apiBase}/api/impact/`)
+      .then(() => { resolved = true; setServerWarm(true); setShowWarmingMessage(false); })
+      .catch(() => { resolved = true; setShowWarmingMessage(false); });
     return () => clearTimeout(timer);
   }, []);
 

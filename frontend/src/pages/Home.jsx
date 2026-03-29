@@ -106,6 +106,28 @@ export default function Home() {
     }).catch(() => {});
   }, []);
 
+const PhotoGallery = () => {
+  const images = Array.from({ length: 7 }, (_, i) => `/photos/image${i + 1}.jfif`);
+  // Double the array for infinite seamless scrolling
+  const marqueeImages = [...images, ...images];
+
+  return (
+    <section className="gallery-section">
+      <div className="gallery-header">
+        <h2>Real Impact, Real Communities</h2>
+        <p>Glimpses of food rescue operations powered by our platform</p>
+      </div>
+      <div className="marquee-wrapper">
+        <div className="marquee">
+          {marqueeImages.map((src, idx) => (
+            <img key={idx} src={src} alt={`Food Rescue ${idx}`} loading="lazy" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
   return (
     <div>
       {/* ── Ticker ─────────────────────────────────────── */}
@@ -219,6 +241,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* ── Photo Gallery ──────────────────────────────── */}
+      <PhotoGallery />
 
       {/* ── Section Divider ── */}
       <div className="section-divider">
