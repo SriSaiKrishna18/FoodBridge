@@ -4,6 +4,15 @@
 
 > **FoodBridge** uses 8 trained ML models to match surplus food with communities in need — optimizing routes, predicting spoilage, detecting anomalies, forecasting demand, clustering hotspots, and learning receiver preferences in real time.
 
+### 🔗 Live Demo
+| | URL |
+|---|---|
+| 🌐 **Frontend** | [food-bridge-cyan.vercel.app](https://food-bridge-cyan.vercel.app) |
+| ⚡ **Backend API** | [foodbridge-api-xxx.onrender.com](https://foodbridge-api-xxx.onrender.com) |
+| 📖 **API Docs** | [/docs (Swagger)](https://foodbridge-api-xxx.onrender.com/docs) |
+
+> **Quick Login:** `donor1@foodbridge.in` / `password123` · `receiver1@foodbridge.in` / `password123` · `admin@foodbridge.in` / `admin123`
+
 ---
 
 ## 🎯 Problem Statement
