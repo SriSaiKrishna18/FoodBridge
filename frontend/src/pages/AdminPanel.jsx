@@ -10,9 +10,9 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
-// Chart.js uses canvas — CSS vars don't work, so detect theme
-const getChartTextColor = () => document.documentElement.getAttribute('data-theme') === 'light' ? '#2a4a35' : '#d1fae5';
-const getChartGridColor = () => document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)';
+// Chart.js uses canvas — CSS vars don't work, hardcoded dark theme
+const getChartTextColor = () => '#d1fae5';
+const getChartGridColor = () => 'rgba(255,255,255,0.06)';
 
 const chartOptions = {
   responsive: true,

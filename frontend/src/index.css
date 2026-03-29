@@ -660,12 +660,13 @@ textarea.form-control { resize: vertical; min-height: 90px; line-height: 1.6; }
 /* ─────────────────────────────────────────────────────────── */
 .hero-split {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   min-height: 80vh;
   gap: 0;
   padding: 0;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 /* Atmospheric blob */
@@ -697,6 +698,7 @@ textarea.form-control { resize: vertical; min-height: 90px; line-height: 1.6; }
   overflow: hidden;
   background: var(--bg-surface);
   border-left: 1px solid var(--border);
+  min-height: 500px;
 }
 
 /* Decorative corner element */
@@ -812,7 +814,7 @@ textarea.form-control { resize: vertical; min-height: 90px; line-height: 1.6; }
   background: rgba(244,251,246,0.9);
   color: var(--g600);
 }
-.hero-map-wrapper .map-container { height: 100%; min-height: 480px; border-radius: 0; border: none; }
+.hero-map-wrapper .map-container { height: 100%; min-height: 500px; border-radius: 0; border: none; overflow: hidden; position: relative; z-index: 1; }
 
 @media (max-width: 1024px) {
   .hero-split { grid-template-columns: 1fr; min-height: auto; }

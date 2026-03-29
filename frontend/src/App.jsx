@@ -32,7 +32,7 @@ function PageTransition({ children }) {
   return <div className={stage}>{displayChildren}</div>;
 }
 
-function Navbar({ user, onLogout, wsConnected, theme, onToggleTheme }) {
+function Navbar({ user, onLogout, wsConnected }) {
   const location = useLocation();
   const isActive = (path) => location.pathname === path ? 'active' : '';
 
@@ -63,14 +63,6 @@ function Navbar({ user, onLogout, wsConnected, theme, onToggleTheme }) {
 
         <NotificationBell />
 
-        <button
-          className="theme-toggle"
-          onClick={onToggleTheme}
-          title={theme === 'dark' ? 'Switch to light' : 'Switch to dark'}
-        >
-          {theme === 'dark' ? '☀️' : '🌙'}
-        </button>
-
         {user ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-3)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
@@ -93,12 +85,12 @@ function AppContent() {
   const [user, setUser] = useState(null);
   const { lastMessage, connected } = useWebSocket();
   const [toast, setToast] = useState(null);
-  const [theme, setTheme] = useState(() => localStorage.getItem('foodbridge_theme') || 'dark');
+  const theme = 'dark';
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('foodbridge_theme', theme);
-  }, [theme]);
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('foodbridge_theme', 'dark');
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem('foodbridge_user');
@@ -118,7 +110,7 @@ function AppContent() {
 
   return (
     <>
-      <Navbar user={user} onLogout={handleLogout} wsConnected={connected} theme={theme} onToggleTheme={() => setTheme(p => p === 'dark' ? 'light' : 'dark')} />
+      <Navbar user={user} onLogout={handleLogout} wsConnected={connected} />
       <ToastNotification message={toast} onClose={() => setToast(null)} />
       <PageTransition>
         <Routes>

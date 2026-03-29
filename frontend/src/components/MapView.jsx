@@ -117,13 +117,11 @@ export default function MapView({ donations = [], receivers = [], routePoints = 
   ];
 
   return (
-    <div className="map-container">
+    <div className="map-container" style={{ position: 'relative', zIndex: 1 }}>
       <MapContainer center={center} zoom={12} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url={document.documentElement.getAttribute('data-theme') === 'light'
-            ? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-            : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"}
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
 
         {positions.length > 0 && <FitBounds positions={positions} />}
