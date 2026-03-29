@@ -104,35 +104,69 @@
 
 /* ── Light Theme ─────────────────────────────────────────── */
 [data-theme="light"] {
-  --bg-base:     #f4fbf6;
-  --bg-surface:  #ebf7ef;
+  --bg-base:     #f0f7f2;
+  --bg-surface:  #e4f0e8;
   --bg-card:     #ffffff;
-  --bg-card-alt: #f8fdf9;
-  --bg-raised:   #edf7f0;
-  --bg-overlay:  rgba(244,251,246,0.90);
+  --bg-card-alt: #f5faf7;
+  --bg-raised:   #e8f3ec;
+  --bg-overlay:  rgba(240,247,242,0.92);
 
-  --text-1: #0d1f14;
-  --text-2: #2a4a35;
-  --text-3: #3d6048;
-  --text-4: #5a8768;
+  --text-1: #0a1910;
+  --text-2: #1e3a28;
+  --text-3: #365744;
+  --text-4: #4d7a5e;
 
-  --border:        rgba(22,163,74,0.18);
-  --border-active: rgba(22,163,74,0.40);
-  --border-card:   rgba(22,163,74,0.14);
+  --border:        rgba(22,163,74,0.15);
+  --border-active: rgba(22,163,74,0.35);
+  --border-card:   rgba(22,163,74,0.12);
 
-  --data-primary:   #0d1f14;
+  --data-primary:   #0a1910;
   --data-secondary: var(--g600);
 
   --accent-glow:        rgba(22,163,74,0.06);
-  --accent-glow-strong: rgba(22,163,74,0.10);
+  --accent-glow-strong: rgba(22,163,74,0.12);
 
-  --shadow-xs: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow-sm: 0 2px 10px rgba(0,0,0,0.07);
-  --shadow-md: 0 4px 24px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 48px rgba(0,0,0,0.09);
-  --shadow-xl: 0 16px 80px rgba(0,0,0,0.10);
-  --shadow-glow:    0 0 0 1px rgba(22,163,74,0.10), 0 4px 24px rgba(22,163,74,0.05);
-  --shadow-glow-lg: 0 0 0 1px rgba(22,163,74,0.15), 0 8px 48px rgba(22,163,74,0.07);
+  --shadow-xs: 0 1px 3px rgba(0,40,20,0.06);
+  --shadow-sm: 0 2px 12px rgba(0,40,20,0.07);
+  --shadow-md: 0 4px 24px rgba(0,40,20,0.08);
+  --shadow-lg: 0 8px 48px rgba(0,40,20,0.10);
+  --shadow-xl: 0 16px 80px rgba(0,40,20,0.12);
+  --shadow-glow:    0 0 0 1px rgba(22,163,74,0.12), 0 4px 24px rgba(22,163,74,0.07);
+  --shadow-glow-lg: 0 0 0 1px rgba(22,163,74,0.18), 0 8px 48px rgba(22,163,74,0.10);
+}
+
+/* Light-theme specific overrides for premium feel */
+[data-theme="light"] .hero-split {
+  background: linear-gradient(145deg, #e8f5ec 0%, #f0f7f2 50%, #e4f0e8 100%) !important;
+}
+[data-theme="light"] .navbar {
+  background: rgba(255,255,255,0.85) !important;
+  box-shadow: 0 1px 0 rgba(22,163,74,0.1), 0 4px 20px rgba(0,40,20,0.06) !important;
+}
+[data-theme="light"] .hero-gradient-animated {
+  background: linear-gradient(140deg, #059669 0%, #047857 25%, #10B981 50%, #059669 75%, #047857 100%) !important;
+  background-size: 200% 200% !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+[data-theme="light"] .ai-card {
+  box-shadow: 0 2px 12px rgba(0,40,20,0.05);
+}
+[data-theme="light"] .stat-card {
+  box-shadow: 0 2px 12px rgba(0,40,20,0.05);
+}
+[data-theme="light"] .story-card {
+  background: linear-gradient(135deg, #ffffff, rgba(22,163,74,0.04)) !important;
+}
+[data-theme="light"] .section-divider-label {
+  background: #f0f7f2;
+  color: #059669;
+}
+[data-theme="light"] .ticker-bar {
+  background: rgba(22,163,74,0.06) !important;
+}
+[data-theme="light"] .btn-primary {
+  box-shadow: 0 2px 12px rgba(22,163,74,0.25);
 }
 
 /* ── Reset & Base ─────────────────────────────────────────── */
