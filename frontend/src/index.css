@@ -147,6 +147,7 @@
   background: linear-gradient(140deg, #059669 0%, #047857 25%, #10B981 50%, #059669 75%, #047857 100%) !important;
   background-size: 200% 200% !important;
   -webkit-background-clip: text !important;
+  background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
 [data-theme="light"] .ai-card {
