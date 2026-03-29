@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import MapView from '../components/MapView';
 import CountdownTimer from '../components/CountdownTimer';
 import api, { donationAPI, matchAPI, aiAPI } from '../api';
 import { FaMapMarkerAlt, FaRoute, FaClock, FaStar, FaCheckCircle, FaExclamationTriangle, FaLeaf, FaFilter, FaSearch, FaTruck, FaWalking, FaHandshake, FaTimes } from 'react-icons/fa';
 
 export default function ReceiverDashboard() {
+  const user = (() => { try { return JSON.parse(localStorage.getItem('foodbridge_user')); } catch { return null; } })();
   const [donations, setDonations] = useState([]);
   const [tab, setTab] = useState('browse');
   const [selectedDonation, setSelectedDonation] = useState(null);
@@ -505,26 +507,32 @@ export default function ReceiverDashboard() {
                           )}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flexShrink: 0 }}>
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => handleAcceptDonation(d)}
-                            disabled={acceptLoading}
-                            style={{ position: 'relative' }}
-                          >
-                            {acceptLoading && selectedDonation?.id === d.id ? (
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                <div style={{
-                                  width: '16px', height: '16px', borderRadius: '50%',
-                                  border: '2px solid rgba(255,255,255,0.3)',
-                                  borderTopColor: '#fff',
-                                  animation: 'spin 0.8s linear infinite',
-                                }} />
-                                Matching...
-                              </div>
-                            ) : (
-                              <><FaCheckCircle /> Accept & Route</>
-                            )}
-                          </button>
+                          {user ? (
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => handleAcceptDonation(d)}
+                              disabled={acceptLoading}
+                              style={{ position: 'relative' }}
+                            >
+                              {acceptLoading && selectedDonation?.id === d.id ? (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                  <div style={{
+                                    width: '16px', height: '16px', borderRadius: '50%',
+                                    border: '2px solid rgba(255,255,255,0.3)',
+                                    borderTopColor: '#fff',
+                                    animation: 'spin 0.8s linear infinite',
+                                  }} />
+                                  Matching...
+                                </div>
+                              ) : (
+                                <><FaCheckCircle /> Accept & Route</>
+                              )}
+                            </button>
+                          ) : (
+                            <Link to="/auth" className="btn btn-secondary" style={{ textAlign: 'center' }}>
+                              🔐 Login to Accept
+                            </Link>
+                          )}
                           <button className="btn btn-secondary btn-sm" onClick={() => handleMarkDelivered(d)} style={{ fontSize: '0.72rem' }}>
                             ✅ Mark Delivered
                           </button>

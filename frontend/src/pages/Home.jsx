@@ -158,6 +158,28 @@ export default function Home() {
               🤝 Find Food
             </Link>
           </div>
+
+          {/* Onboarding prompt */}
+          <div style={{
+            marginTop: '1.5rem',
+            padding: '1rem 1.25rem',
+            background: 'rgba(22,163,74,0.06)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--r-md)',
+            fontSize: '0.82rem',
+            color: 'var(--text-3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            maxWidth: '480px',
+          }}>
+            <span style={{ fontSize: '1.2rem' }}>👋</span>
+            <div>
+              <strong style={{ color: 'var(--text-1)' }}>New here?</strong>
+              {' '}Browse available food without an account — or{' '}
+              <Link to="/auth" style={{ color: 'var(--g400)', fontWeight: 600 }}>register free in 30 seconds</Link> to donate or accept.
+            </div>
+          </div>
         </div>
 
         <div className="hero-right">
@@ -218,6 +240,22 @@ export default function Home() {
       {/* ── Section Divider ── */}
       <div className="section-divider">
         <span className="section-divider-label"><span className="section-divider-dot" /> AI / ML Layer</span>
+      </div>
+
+      {/* ── Human Value Proposition ── */}
+      <div style={{ textAlign: 'center', padding: '2.5rem 1rem 0.5rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '1.8rem',
+          fontWeight: 800,
+          color: 'var(--text-1)',
+          marginBottom: '0.5rem',
+        }}>
+          List food in 60 seconds.
+        </div>
+        <div style={{ color: 'var(--text-3)', fontSize: '1rem', maxWidth: '500px', margin: '0 auto' }}>
+          AI handles everything else — matching, routing, safety checks, and impact tracking.
+        </div>
       </div>
 
       {/* ── AI Models ──────────────────────────────────── */}

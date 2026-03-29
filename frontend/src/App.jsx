@@ -85,11 +85,18 @@ function AppContent() {
   const [user, setUser] = useState(null);
   const { lastMessage, connected } = useWebSocket();
   const [toast, setToast] = useState(null);
-  const theme = 'dark';
+  const [serverWarm, setServerWarm] = useState(false);
+  const [showWarmingMessage, setShowWarmingMessage] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', 'dark');
     localStorage.setItem('foodbridge_theme', 'dark');
+    // Ping backend — show warming message if slow
+    const timer = setTimeout(() => { if (!serverWarm) setShowWarmingMessage(true); }, 5000);
+    fetch('https://foodbridge-api-m7ht.onrender.com/api/impact/')
+      .then(() => { setServerWarm(true); setShowWarmingMessage(false); })
+      .catch(() => {});
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -111,6 +118,18 @@ function AppContent() {
   return (
     <>
       <Navbar user={user} onLogout={handleLogout} wsConnected={connected} />
+      {showWarmingMessage && (
+        <div style={{
+          background: 'rgba(217,119,6,0.1)',
+          border: '1px solid rgba(217,119,6,0.3)',
+          padding: '0.5rem 1.5rem',
+          fontSize: '0.8rem',
+          color: '#fbbf24',
+          textAlign: 'center',
+        }}>
+          🌡️ Server is warming up — free tier cold start takes ~30 seconds. Features will load shortly.
+        </div>
+      )}
       <ToastNotification message={toast} onClose={() => setToast(null)} />
       <PageTransition>
         <Routes>
