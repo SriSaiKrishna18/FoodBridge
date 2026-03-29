@@ -1226,3 +1226,185 @@ textarea.form-control { resize: vertical; min-height: 90px; line-height: 1.6; }
   border: 1px solid var(--border) !important;
   border-radius: var(--r-sm) !important;
 }
+
+/* ── Floating Particle Animation ─────────────────────────── */
+@keyframes float-particle {
+  0%   { transform: translate(0, 0) scale(1); opacity: var(--p-opacity, 0.1); }
+  25%  { transform: translate(15px, -25px) scale(1.2); }
+  50%  { transform: translate(-10px, -50px) scale(0.8); opacity: calc(var(--p-opacity, 0.1) * 1.5); }
+  75%  { transform: translate(25px, -20px) scale(1.1); }
+  100% { transform: translate(-5px, -45px) scale(1); opacity: var(--p-opacity, 0.1); }
+}
+
+/* ── Auth Page — Split Screen ────────────────────────────── */
+.auth-feature-card:hover {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(16,185,129,0.2) !important;
+  transform: translateY(-2px);
+}
+
+.demo-acct-btn:hover {
+  background: rgba(16,185,129,0.08) !important;
+  border-color: rgba(16,185,129,0.2) !important;
+}
+
+@media (max-width: 900px) {
+  .auth-left-panel {
+    display: none !important;
+  }
+}
+
+/* ── Glassmorphic Input Focus ────────────────────────────── */
+input:focus {
+  border-color: rgba(16,185,129,0.4) !important;
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.08), 0 0 20px rgba(16,185,129,0.06) !important;
+}
+
+/* ── Shimmer Gradient for Cards ──────────────────────────── */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero-gradient-animated {
+  background: linear-gradient(140deg, #10B981 0%, #34D399 25%, #6EE7B7 50%, #34D399 75%, #10B981 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Card Hover Glow Enhancement ─────────────────────────── */
+.card:hover {
+  border-color: var(--border-active);
+  box-shadow: var(--shadow-glow), 0 16px 48px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+}
+
+/* ── Stat Card Shimmer ───────────────────────────────────── */
+.stat-card:hover::before {
+  background: linear-gradient(90deg, transparent, var(--g400), transparent);
+  animation: shimmer 2s linear infinite;
+}
+
+/* ── Neon Glow Button ────────────────────────────────────── */
+.btn-primary:hover {
+  box-shadow: 0 0 40px rgba(16,185,129,0.35), 0 4px 0 rgba(0,0,0,0.3), var(--shadow-glow-lg);
+}
+
+/* ── Badge Pulse Animation ───────────────────────────────── */
+.badge-success {
+  animation: subtle-glow 3s ease-in-out infinite;
+}
+@keyframes subtle-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(22,163,74,0); }
+  50% { box-shadow: 0 0 8px rgba(22,163,74,0.15); }
+}
+
+/* ── Smooth Skeleton Loading ─────────────────────────────── */
+@keyframes skeleton-pulse {
+  0%   { opacity: 0.4; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 0.4; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-surface), var(--bg-raised), var(--bg-surface));
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease infinite, skeleton-pulse 2s ease infinite;
+  border-radius: var(--r-sm);
+}
+
+/* ── Enhanced Navbar Glow ────────────────────────────────── */
+.navbar {
+  box-shadow: 0 1px 0 var(--border), 0 4px 24px rgba(0,0,0,0.2);
+}
+.navbar-nav a.active {
+  box-shadow: 0 0 12px rgba(22,163,74,0.1);
+}
+
+/* ── Footer Enhancement ──────────────────────────────────── */
+.footer {
+  position: relative;
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-active), transparent);
+}
+
+/* ── AI Card Pulse (on hover, icon glows) ────────────────── */
+.ai-card:hover .ai-card-icon {
+  transform: scale(1.08);
+  transition: transform 0.3s;
+}
+
+/* ── Hero Section Polish ─────────────────────────────────── */
+.hero-split::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to top, var(--bg-base), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Form Control Glass ──────────────────────────────────── */
+.form-control {
+  backdrop-filter: blur(4px);
+}
+.form-control:hover {
+  border-color: rgba(22,163,74,0.25);
+}
+
+/* ── Responsive: Auth Left Panel & Grid ──────────────────── */
+@media (max-width: 1200px) {
+  .auth-left-panel {
+    padding: 3rem !important;
+  }
+}
+
+/* ── Section Divider Lines ───────────────────────────────── */
+.section-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+.section-divider::before {
+  content: '';
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16,185,129,0.25) 50%, transparent);
+}
+.section-divider-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--bg-base);
+  border: 1px solid rgba(16,185,129,0.15);
+  color: #10B981;
+}
+.section-divider-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+}
+

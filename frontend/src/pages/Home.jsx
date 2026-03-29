@@ -52,7 +52,7 @@ const AI_MODELS = [
     iconClass: 'ai-card-icon-3',
     icon: <FaBolt />,
     title: 'Demand Forecaster (GBR)',
-    desc: 'Predicts donation volume for next 6 hours by category · R²: 0.64 · Alerts receivers before surplus is even listed',
+    desc: 'Predicts donation volume for next 6 hours by category · R²: 0.81 · Alerts receivers before surplus is even listed',
     tag: 'forecast_model.pkl',
   },
   {
@@ -129,7 +129,7 @@ export default function Home() {
 
           <h1 className="hero-title-main">
             AI-Powered
-            <span className="hero-gradient">Food Rescue</span>
+            <span className="hero-gradient-animated">Food Rescue</span>
             Platform
           </h1>
 
@@ -198,6 +198,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Section Divider ── */}
+      <div className="section-divider">
+        <span className="section-divider-label"><span className="section-divider-dot" /> Environmental Impact</span>
+      </div>
+
       {/* ── Impact Stats ───────────────────────────────── */}
       <section className="impact-section">
         <div className="container">
@@ -209,6 +214,11 @@ export default function Home() {
           <ImpactCounter />
         </div>
       </section>
+
+      {/* ── Section Divider ── */}
+      <div className="section-divider">
+        <span className="section-divider-label"><span className="section-divider-dot" /> AI / ML Layer</span>
+      </div>
 
       {/* ── AI Models ──────────────────────────────────── */}
       <section style={{ padding: '2rem 0 5rem' }}>
@@ -243,8 +253,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Section Divider ── */}
+      <div className="section-divider">
+        <span className="section-divider-label"><span className="section-divider-dot" /> How It Works</span>
+      </div>
+
       {/* ── How It Works ───────────────────────────────── */}
-      <section style={{ padding: '0 0 5rem' }}>
+      <section style={{ padding: '2rem 0 5rem' }}>
         <div className="container">
           <div className="section-header text-center">
             <h2 className="section-title">How FoodBridge Works</h2>
